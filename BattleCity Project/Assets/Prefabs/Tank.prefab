@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 4057148619155688394}
   - component: {fileID: 1570263494987960699}
   - component: {fileID: 7603906878848824421}
-  - component: {fileID: 2483350907504042434}
   m_Layer: 6
   m_Name: Tank
   m_TagString: Untagged
@@ -243,19 +242,6 @@ MonoBehaviour:
   firePoint: {fileID: 3260115092552728794}
   fireCooldown: 2
   projectileSpeed: 10
---- !u!114 &2483350907504042434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379268423320746135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89d77d5a4fca2fe49be97e5cffbdc3c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DebugListCollidersOnTank
-  tankRoot: {fileID: 6307885789059187546}
 --- !u!1 &2478534982570892199
 GameObject:
   m_ObjectHideFlags: 0

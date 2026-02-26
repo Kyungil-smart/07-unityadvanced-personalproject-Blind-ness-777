@@ -101,7 +101,7 @@ MonoBehaviour:
   selfCollider: {fileID: 6844824985399892175}
   hitMask:
     serializedVersion: 2
-    m_Bits: 4032
+    m_Bits: 0
   castRadius: 1
 --- !u!1 &8729893470262990526
 GameObject:
