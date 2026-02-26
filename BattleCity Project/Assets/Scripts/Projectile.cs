@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Projectile : MonoBehaviour
 {
@@ -49,7 +48,7 @@ public class Projectile : MonoBehaviour
             Vector3 stopPos = hit.point - moveDirection * skin;
             rb.MovePosition(stopPos);
 
-            HandleHit(hit.collider);
+            HandleHit(hit);
             return;
         }
         
@@ -57,8 +56,10 @@ public class Projectile : MonoBehaviour
         rb.MovePosition(nextPos);
     }
 
-    private void HandleHit(Collider other)
+    private void HandleHit(RaycastHit hit)
     {
+        Collider other = hit.collider;
+        
         // 1) 총알끼리 충돌: 둘 다 무효화
         Projectile otherProjectile = other.GetComponent<Projectile>();
         if (otherProjectile != null)
@@ -69,9 +70,14 @@ public class Projectile : MonoBehaviour
         }
         
         // 2) 그 외(벽/탱크/기지): 맞으면 총알 사라짐
+        IProjectileHittable hittable = hit.collider.GetComponent<IProjectileHittable>();
+        if (hittable != null)
+        {
+            hittable.OnProjectileHit(this, hit);
+        }
+        
+        // 3) 총알은 기본적으로 사라짐
         Deactivate();
-
-        // 다음 단계(내일): other 쪽이 IHitReceiver 같은 걸로 반응(벽 파괴/기지 게임오버 등)
     }
     
     private void Deactivate()
