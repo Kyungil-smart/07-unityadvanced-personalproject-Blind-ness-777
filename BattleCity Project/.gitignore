@@ -100,3 +100,8 @@ InitTestScene*.unity*
 
 # Ignore imported assets
 Assets/Imports/**
+
+# JetBrains / Rider
+.idea/
+*.sln.iml
+*.DotSettings.user
