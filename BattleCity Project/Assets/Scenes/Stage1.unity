@@ -1101,7 +1101,7 @@ PrefabInstance:
     - target: {fileID: 3720057202079692613, guid: 863e3362141b2da4dadef5298727f798, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 1173026264}
+      objectReference: {fileID: 0}
     - target: {fileID: 4590791620409510670, guid: 863e3362141b2da4dadef5298727f798, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -2689,7 +2689,8 @@ GameObject:
   - component: {fileID: 637265867}
   - component: {fileID: 637265866}
   - component: {fileID: 637265865}
-  m_Layer: 0
+  - component: {fileID: 637265868}
+  m_Layer: 11
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2789,6 +2790,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637265863}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &637265868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637265863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f2168d48836c1428ffb7031c989f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Base
+  isDestroyed: 0
+  baseVisual: {fileID: 637265863}
 --- !u!1001 &638375946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4312,7 +4327,8 @@ GameObject:
   - component: {fileID: 1114200911}
   - component: {fileID: 1114200910}
   - component: {fileID: 1114200909}
-  m_Layer: 0
+  - component: {fileID: 1114200912}
+  m_Layer: 11
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4412,6 +4428,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114200907}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1114200912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114200907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f2168d48836c1428ffb7031c989f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Base
+  isDestroyed: 0
+  baseVisual: {fileID: 1114200907}
 --- !u!1 &1123347938
 GameObject:
   m_ObjectHideFlags: 0
@@ -4582,6 +4612,18 @@ PrefabInstance:
       value: Tank
       objectReference: {fileID: 0}
     - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4626,11 +4668,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
---- !u!4 &1173026264 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
-  m_PrefabInstance: {fileID: 1173026263}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1174486768
 PrefabInstance:
   m_ObjectHideFlags: 0
