@@ -1098,22 +1098,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3720057202079692613, guid: 863e3362141b2da4dadef5298727f798, type: 3}
-      propertyPath: Target.TrackingTarget
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4590791620409510670, guid: 863e3362141b2da4dadef5298727f798, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4590791620409510670, guid: 863e3362141b2da4dadef5298727f798, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 7.1049404
-      objectReference: {fileID: 0}
-    - target: {fileID: 4590791620409510670, guid: 863e3362141b2da4dadef5298727f798, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -61.676018
-      objectReference: {fileID: 0}
     - target: {fileID: 4808967284588212263, guid: 863e3362141b2da4dadef5298727f798, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -4610,18 +4594,6 @@ PrefabInstance:
     - target: {fileID: 4908798557158596474, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
       propertyPath: m_Name
       value: Tank
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
       propertyPath: m_LocalPosition.x
