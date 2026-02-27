@@ -4,7 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private enum Axis { None, X, Y }
     
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private float speed = 2.0f;
     
     private Vector2 input;
@@ -18,7 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
+        if (rb == null) rb = GetComponent<Rigidbody>();
+        
+        rb.useGravity = false;
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
     
     public void Tick(Vector2 moveInput)
@@ -28,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         {
             lastAxis = Axis.None;
             prevInput = moveInput;
+            direction = Vector3.zero;
             return;
         }
         
@@ -35,14 +40,24 @@ public class PlayerMovement : MonoBehaviour
         RotationLogic();
         
         direction = Vector3.forward * input.y + Vector3.right * input.x;
-        characterController.Move(direction * speed * Time.deltaTime);
 
         if (lookDir != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(lookDir);
+            rb.MoveRotation(Quaternion.LookRotation(lookDir));
         }
         
         prevInput = moveInput;
+    }
+
+    private void FixedUpdate()
+    {
+        if (direction == Vector3.zero) return;
+        
+        Vector3 currentPos = rb.position;
+        float distance = speed * Time.fixedDeltaTime;
+        
+        Vector3 nextPos = currentPos + direction * distance;
+        rb.MovePosition(nextPos);
     }
 
     private void ApplyAxisLock()
@@ -85,19 +100,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (lastAxis == Axis.X)
         {
-            if (input.x < 0f)
-            {
-                lookDir = Vector3.left;
-            }
+            if (input.x < 0f) lookDir = Vector3.left;
             else lookDir = Vector3.right;
         }
 
         if (lastAxis == Axis.Y)
         {
-            if (input.y < 0f)
-            {
-                lookDir = Vector3.back;
-            }
+            if (input.y < 0f) lookDir = Vector3.back;
             else lookDir = Vector3.forward;
         }
     }

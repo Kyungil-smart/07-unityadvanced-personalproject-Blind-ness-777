@@ -1,23 +1,28 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform firePoint;
+    
+    [Header("Fire Point")]
+    [SerializeField] private Transform firePointPosition;
+    [SerializeField] private Transform firePointDirection;
     
     [SerializeField] private float fireCooldown = 0.25f;
     [SerializeField] private float projectileSpeed = 10f;
     
     private float nextFireTime;
+    
     private int _maxActiveProjectiles;
     private int _activeProjectiles;
     
     private void Awake()
     {
         if (inputManager == null) inputManager = GetComponent<InputManager>();
+        
+        if (firePointPosition == null) firePointPosition = transform;
+        if (firePointDirection == null) firePointDirection = transform;
     }
     
     public void Tick()
@@ -26,11 +31,14 @@ public class PlayerAttack : MonoBehaviour
         if (Time.time < nextFireTime) return;
         if (!inputManager.ConsumeFireRequested()) return;
         
-        GameObject bulletObject = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Vector3 spawnPosition = firePointPosition.position;
+        Quaternion spawnRotation = Quaternion.LookRotation(firePointDirection.forward);
+        
+        GameObject bulletObject = Instantiate(projectilePrefab, spawnPosition, spawnRotation);
         
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         if (bullet != null)
-            bullet.Launch(firePoint.forward, projectileSpeed);
+            bullet.Launch(firePointDirection.forward, projectileSpeed);
         
         nextFireTime = Time.time + fireCooldown;
         // _activeProjectiles++;
