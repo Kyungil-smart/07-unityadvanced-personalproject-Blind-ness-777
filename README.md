@@ -24,7 +24,7 @@
 - Unity 6000.3.9f1
 - MainMenu Scene 실행
 - 이동: WASD
-- 발사: Mouse 1
+- 발사: Mouse 1(마우스 클릭)
 
 
 ## 프로젝트 구조
