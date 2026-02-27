@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 266017775355205701}
   - component: {fileID: 898369120085379771}
   - component: {fileID: 8992147611709016048}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 5912275692199320932}
   - component: {fileID: 8952552325161096919}
   - component: {fileID: 41140119011182963}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 4995840351392359870}
   - component: {fileID: 8162206109406130588}
   - component: {fileID: 8487490308376749157}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_wheel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8243494578708760310}
-  m_Layer: 0
+  - component: {fileID: 5869778607093512276}
+  - component: {fileID: 3738003837670763126}
+  - component: {fileID: 2249305492326663124}
+  - component: {fileID: 8397463126886767472}
+  m_Layer: 7
   m_Name: EnemyTank_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,14 +299,89 @@ Transform:
   m_GameObject: {fileID: 4899925197387026815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.14, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5590292889289995889}
   - {fileID: 4549013458557384715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &5869778607093512276
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4899925197387026815}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
+--- !u!65 &3738003837670763126
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4899925197387026815}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.22, y: 2, z: 4.07}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2249305492326663124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4899925197387026815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4304979830633f74c8b46ca544926338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  movement: {fileID: 8397463126886767472}
+--- !u!114 &8397463126886767472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4899925197387026815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91334158615a1584a826ab73465b6707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+  rb: {fileID: 5869778607093512276}
+  speed: 10
 --- !u!1 &6330695546248529938
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +393,7 @@ GameObject:
   - component: {fileID: 283685229479721773}
   - component: {fileID: 2111154755288778163}
   - component: {fileID: 8907558436501356025}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_windscreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4549013458557384715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +514,7 @@ GameObject:
   - component: {fileID: 1712785974894111125}
   - component: {fileID: 6878557005518173669}
   - component: {fileID: 4475407246936135802}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +604,7 @@ GameObject:
   - component: {fileID: 6344168537063708490}
   - component: {fileID: 2830312012800333050}
   - component: {fileID: 3380598883086766165}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +694,7 @@ GameObject:
   - component: {fileID: 5681524665323059821}
   - component: {fileID: 2238580841576324583}
   - component: {fileID: 4562942346134169206}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_axel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +784,7 @@ GameObject:
   - component: {fileID: 6484060906099800898}
   - component: {fileID: 2468624513984888138}
   - component: {fileID: 4521151062357245713}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_wheel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -793,7 +872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5590292889289995889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tank_Crawler_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -835,7 +914,7 @@ GameObject:
   - component: {fileID: 5587149513569714621}
   - component: {fileID: 8287909672261048828}
   - component: {fileID: 611245638373797936}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crawler_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}

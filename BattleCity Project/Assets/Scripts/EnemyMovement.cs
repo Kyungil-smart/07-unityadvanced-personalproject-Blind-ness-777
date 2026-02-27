@@ -14,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody>();
         
         rb.useGravity = false;
-        rb.isKinematic = true;
+        rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
@@ -38,5 +38,10 @@ public class EnemyMovement : MonoBehaviour
 
         Vector3 nextPos = currentPos + direction * distance;
         rb.MovePosition(nextPos);
+    }
+    
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("HIT: " + collision.gameObject.name);
     }
 }

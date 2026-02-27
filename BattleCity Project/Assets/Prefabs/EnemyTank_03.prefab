@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4558360048765090236}
   - component: {fileID: 8333887069348292020}
   - component: {fileID: 6175216015922930028}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TankHeavyTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 628426308360967297}
-  m_Layer: 0
+  - component: {fileID: 5216898829244734382}
+  - component: {fileID: 5986306970168193342}
+  - component: {fileID: 653529495399232080}
+  - component: {fileID: 5379435891688992872}
+  m_Layer: 7
   m_Name: EnemyTank_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,13 +120,88 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7498823715603956847}
   - {fileID: 126510240273277478}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &5216898829244734382
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
+--- !u!65 &5986306970168193342
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.52, y: 2, z: 3.68}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &653529495399232080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4304979830633f74c8b46ca544926338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  movement: {fileID: 5379435891688992872}
+--- !u!114 &5379435891688992872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91334158615a1584a826ab73465b6707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+  rb: {fileID: 5216898829244734382}
+  speed: 10
 --- !u!1 &3871730638664385227
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +213,7 @@ GameObject:
   - component: {fileID: 5045589478248040054}
   - component: {fileID: 4111774902780586125}
   - component: {fileID: 5094291753563467277}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TankHeavyChassis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +303,7 @@ GameObject:
   - component: {fileID: 5012712436875616581}
   - component: {fileID: 6653255736667466355}
   - component: {fileID: 5759878986672393882}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TankHeavyTracksRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 126510240273277478}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +424,7 @@ GameObject:
   - component: {fileID: 1910607215388633144}
   - component: {fileID: 5262725090924747818}
   - component: {fileID: 5738747719168268545}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TankHeavyTracksLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7498823715603956847}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tank_Heavy_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

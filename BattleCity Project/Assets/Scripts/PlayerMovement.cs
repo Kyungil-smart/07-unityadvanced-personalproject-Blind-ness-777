@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody>();
         
         rb.useGravity = false;
-        rb.isKinematic = true;
+        rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
     
