@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 5986306970168193342}
   - component: {fileID: 653529495399232080}
   - component: {fileID: 5379435891688992872}
+  - component: {fileID: 2066309230401962802}
   m_Layer: 7
   m_Name: EnemyTank_03
   m_TagString: Untagged
@@ -202,6 +203,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   rb: {fileID: 5216898829244734382}
   speed: 10
+--- !u!114 &2066309230401962802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342e12253b7840641826c925bc6b01ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TankHealth
+  maxHp: 1
 --- !u!1 &3871730638664385227
 GameObject:
   m_ObjectHideFlags: 0

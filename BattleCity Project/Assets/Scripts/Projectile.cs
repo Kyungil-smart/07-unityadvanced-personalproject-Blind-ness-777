@@ -6,10 +6,13 @@ public class Projectile : MonoBehaviour
     [SerializeField] private Collider selfCollider;
     [SerializeField] private LayerMask hitMask;
     [SerializeField] private float castRadius = 0.2f;
-    
+
+    [Header("Cast Offset")]
+    [SerializeField] private float castYOffset = 0.3f; // 판정용 캐스트를 아래로 내리는 값(월드 Y 기준)
+
     private float moveSpeed;
     private Vector3 moveDirection;
-    
+
     private readonly float skin = 0.01f;
 
     private void Awake()
@@ -20,47 +23,49 @@ public class Projectile : MonoBehaviour
         rb.isKinematic = true;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
-    
+
     public void Launch(Vector3 direction, float speed)
     {
         moveDirection = direction.normalized;
         moveSpeed = speed;
     }
-    
+
     private void FixedUpdate()
     {
         if (moveSpeed <= 0f) return;
         if (moveDirection == Vector3.zero) return;
-        
+
         Vector3 prevPos = rb.position;
         float distance = moveSpeed * Time.fixedDeltaTime;
-        
+
+        // ✅ 캐스트 시작점만 아래로 내림
+        Vector3 castOffset = Vector3.down * castYOffset;
+        Vector3 castOrigin = prevPos + castOffset;
+
         RaycastHit hit;
-        if (Physics.SphereCast(prevPos, castRadius, moveDirection, out hit, distance, hitMask, QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(castOrigin, castRadius, moveDirection, out hit, distance, hitMask, QueryTriggerInteraction.Ignore))
         {
-            // 자기 자신이 잡히는 경우 방지(원점이 콜라이더 안쪽이면 가끔 발생)
+            // 자기 자신이 잡히는 경우 방지
             if (hit.collider == selfCollider)
             {
                 rb.MovePosition(prevPos + moveDirection * distance);
                 return;
             }
-            
-            Vector3 stopPos = hit.point - moveDirection * skin;
+
+            // ✅ hit.point는 "캐스트 중심" 기준이므로, 다시 오프셋을 되돌려서 실제 총알 위치를 계산
+            Vector3 stopPos = (hit.point - moveDirection * skin) - castOffset;
             rb.MovePosition(stopPos);
 
-            HandleHit(hit);
+            HandleHit(hit.collider, hit);
             return;
         }
-        
+
         Vector3 nextPos = prevPos + moveDirection * distance;
         rb.MovePosition(nextPos);
     }
 
-    private void HandleHit(RaycastHit hit)
+    private void HandleHit(Collider other, RaycastHit hit)
     {
-        Collider other = hit.collider;
-        
-        // 1) 총알끼리 충돌: 둘 다 무효화
         Projectile otherProjectile = other.GetComponent<Projectile>();
         if (otherProjectile != null)
         {
@@ -68,21 +73,18 @@ public class Projectile : MonoBehaviour
             Deactivate();
             return;
         }
-        
-        // 2) 그 외(벽/탱크/기지): 맞으면 총알 사라짐
-        IProjectileHittable hittable = hit.collider.GetComponent<IProjectileHittable>();
+
+        IProjectileHittable hittable = other.GetComponent<IProjectileHittable>();
         if (hittable != null)
         {
             hittable.OnProjectileHit(this, hit);
         }
-        
-        // 3) 총알은 기본적으로 사라짐
+
         Deactivate();
     }
-    
+
     private void Deactivate()
     {
-        // 지금은 Destroy보다 SetActive(false)가 테스트가 편함(풀링으로 가도 그대로 사용 가능)
         gameObject.SetActive(false);
     }
 }

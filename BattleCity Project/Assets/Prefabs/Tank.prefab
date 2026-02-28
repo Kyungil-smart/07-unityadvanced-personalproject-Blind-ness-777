@@ -240,6 +240,37 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
+--- !u!1 &1660260776152154640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3641589809366031524}
+  m_Layer: 6
+  m_Name: FirePointDirection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3641589809366031524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660260776152154640}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.552, z: 0.86}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6175379952528041819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4908798557158596474
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +287,8 @@ GameObject:
   - component: {fileID: 416412532880100411}
   - component: {fileID: 2954113044296341885}
   - component: {fileID: 4143309333636106723}
+  - component: {fileID: 4197617864326679993}
+  - component: {fileID: 884379227209245384}
   m_Layer: 6
   m_Name: Tank
   m_TagString: Untagged
@@ -278,6 +311,7 @@ Transform:
   m_Children:
   - {fileID: 11440811835548589}
   - {fileID: 2677445583356077143}
+  - {fileID: 3641589809366031524}
   - {fileID: 3673608884957463143}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -445,7 +479,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.76, y: 1.5, z: 2.15}
+  m_Size: {x: 1.68, y: 1.5, z: 2}
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &9037453987559289656
 MonoBehaviour:
@@ -472,7 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14e64304cd46c394897c7c1d685373bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  rb: {fileID: 2904687744423071861}
   speed: 10
 --- !u!114 &2954113044296341885
 MonoBehaviour:
@@ -503,10 +537,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 9037453987559289656}
   projectilePrefab: {fileID: 4894765710890885353, guid: 621d8ef90652261468eae3e8251f7e64, type: 3}
-  firePointPosition: {fileID: 0}
-  firePointDirection: {fileID: 0}
+  firePointPosition: {fileID: 2677445583356077143}
+  firePointDirection: {fileID: 3641589809366031524}
   fireCooldown: 2
   projectileSpeed: 15
+--- !u!114 &4197617864326679993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908798557158596474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342e12253b7840641826c925bc6b01ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TankHealth
+  maxHp: 1
+--- !u!114 &884379227209245384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908798557158596474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342e12253b7840641826c925bc6b01ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TankHealth
+  maxHp: 1
 --- !u!1 &8371695261630927106
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2677445583356077143}
   m_Layer: 6
-  m_Name: FirePoint
+  m_Name: FirePointPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +592,7 @@ Transform:
   m_GameObject: {fileID: 8371695261630927106}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.45, z: 1.1099999}
+  m_LocalPosition: {x: 0, y: 1.555, z: 1.037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
