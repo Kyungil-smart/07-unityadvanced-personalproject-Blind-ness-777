@@ -12,7 +12,10 @@ public partial class RequestFireAction : Action
 
     protected override Status OnStart()
     {
-        return Status.Running;
+        if (FireRequested != null)
+            FireRequested.Value = true;
+
+        return Status.Success;
     }
 
     protected override Status OnUpdate()

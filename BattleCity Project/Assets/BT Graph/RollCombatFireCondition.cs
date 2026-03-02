@@ -10,7 +10,12 @@ public partial class RollCombatFireCondition : Condition
 
     public override bool IsTrue()
     {
-        return true;
+        if (CombatFireChance == null)
+            return false;
+
+        float chance = Mathf.Clamp01(CombatFireChance.Value);
+
+        return UnityEngine.Random.value < chance;
     }
 
     public override void OnStart()

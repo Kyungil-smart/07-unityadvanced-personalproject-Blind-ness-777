@@ -10,7 +10,10 @@ public partial class IsForwardClearCondition : Condition
 
     public override bool IsTrue()
     {
-        return true;
+        if (ForwardClear == null)
+            return false;
+
+        return ForwardClear.Value;
     }
 
     public override void OnStart()

@@ -5,12 +5,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private EnemyMovement movement;
     [SerializeField] private EnemySensors sensors;
     [SerializeField] private EnemyBrain brain;
+    [SerializeField] private EnemyAttack attack;
 
     private void Awake()
     {
         if (movement == null) movement = GetComponent<EnemyMovement>();
         if (sensors == null) sensors = GetComponent<EnemySensors>();
         if (brain == null) brain = GetComponent<EnemyBrain>();
+        if (attack == null) attack = GetComponent<EnemyAttack>();
     }
 
     private void Update()
@@ -23,5 +25,11 @@ public class EnemyController : MonoBehaviour
 
         // 실행
         movement.Tick(brain.GetMoveDir());
+        
+        // 발사
+        if (brain.ConsumeFireRequested())
+        {
+            if (attack != null) attack.Tick();
+        }
     }
 }
