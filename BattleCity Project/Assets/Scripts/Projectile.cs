@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
         Vector3 prevPos = rb.position;
         float distance = moveSpeed * Time.fixedDeltaTime;
 
-        // ✅ 캐스트 시작점만 아래로 내림
+        // 캐스트 시작점만 아래로 내림
         Vector3 castOffset = Vector3.down * castYOffset;
         Vector3 castOrigin = prevPos + castOffset;
 
@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
                 return;
             }
 
-            // ✅ hit.point는 "캐스트 중심" 기준이므로, 다시 오프셋을 되돌려서 실제 총알 위치를 계산
+            // hit.point는 "캐스트 중심" 기준이므로, 다시 오프셋을 되돌려서 실제 총알 위치를 계산
             Vector3 stopPos = (hit.point - moveDirection * skin) - castOffset;
             rb.MovePosition(stopPos);
 

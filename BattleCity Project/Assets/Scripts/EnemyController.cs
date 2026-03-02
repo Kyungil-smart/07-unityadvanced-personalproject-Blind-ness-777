@@ -3,13 +3,15 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyMovement movement;
-    
+    [SerializeField] private EnemySensors sensors;
+
     // 나중에 붙일 예정
     // [SerializeField] private EnemyBrain brain;
 
     private void Awake()
     {
         if (movement == null) movement = GetComponent<EnemyMovement>();
+        if (sensors == null) sensors = GetComponent<EnemySensors>();
         // if (brain == null) brain = GetComponent<EnemyBrain>();
     }
 
@@ -20,6 +22,7 @@ public class EnemyController : MonoBehaviour
         Vector3 moveDir = Vector3.forward;  // Test용
         
         // 2) 실행
+        sensors.Tick(moveDir);
         movement.Tick(moveDir);
     }
 }
