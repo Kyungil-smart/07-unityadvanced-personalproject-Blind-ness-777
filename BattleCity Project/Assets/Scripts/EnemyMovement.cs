@@ -21,33 +21,58 @@ public class EnemyMovement : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezePositionY
                          | RigidbodyConstraints.FreezeRotationX
                          | RigidbodyConstraints.FreezeRotationZ;
+        
+        // 초기 바라보는 방향 고정 (없으면 첫 턴에서 이상해질 수 있음)
+        lookDir = SnapToCardinal(transform.forward);
+        if (lookDir == Vector3.zero) lookDir = Vector3.forward;
+        rb.MoveRotation(Quaternion.LookRotation(lookDir));
     }
 
     public void Tick(Vector3 moveDir)
     {
-        // 1) 의도 저장 (물리 적용은 FixedUpdate에서)
+        // 의도 저장 (물리 적용은 FixedUpdate에서)
         if (moveDir == Vector3.zero)
         {
             direction = Vector3.zero;
             return;
         }
 
-        direction = moveDir.normalized;
-        lookDir = direction;
+        direction = SnapToCardinal(moveDir);
     }
 
     private void FixedUpdate()
     {
         if (direction == Vector3.zero) return;
 
-        // 2) 회전도 물리 스텝에서 적용
-        rb.MoveRotation(Quaternion.LookRotation(lookDir));
-
+        // 방향이 바뀌었으면 회전만 하고 종료 (턴 프레임)
+        if (direction != lookDir)
+        {
+            lookDir = direction;
+            rb.MoveRotation(Quaternion.LookRotation(lookDir));
+            return;
+        }
+        
+        // 방향 같으면 직선 이동
         Vector3 currentPos = rb.position;
         float distance = speed * Time.fixedDeltaTime;
 
-        Vector3 nextPos = currentPos + direction * distance;
+        Vector3 nextPos = currentPos + lookDir * distance;
         rb.MovePosition(nextPos);
+    }
+    
+    private Vector3 SnapToCardinal(Vector3 dir)
+    {
+        if (dir == Vector3.zero) return Vector3.zero;
+
+        dir.y = 0f;
+
+        float absX = Mathf.Abs(dir.x);
+        float absZ = Mathf.Abs(dir.z);
+
+        if (absX >= absZ)
+            return (dir.x >= 0f) ? Vector3.right : Vector3.left;
+        else
+            return (dir.z >= 0f) ? Vector3.forward : Vector3.back;
     }
 
     private void OnCollisionEnter(Collision collision)

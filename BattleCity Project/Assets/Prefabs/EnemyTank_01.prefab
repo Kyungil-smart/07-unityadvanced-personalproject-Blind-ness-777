@@ -444,9 +444,11 @@ GameObject:
   - component: {fileID: 3291447007707520495}
   - component: {fileID: 869010712242435694}
   - component: {fileID: 1591241196678042436}
+  - component: {fileID: -5524759435757811097}
   - component: {fileID: 314269687655328018}
   - component: {fileID: 9140497955755178006}
   - component: {fileID: 3892815610879013690}
+  - component: {fileID: 6462234765356529583}
   m_Layer: 7
   m_Name: EnemyTank_01
   m_TagString: Untagged
@@ -532,7 +534,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   movement: {fileID: 9140497955755178006}
-  sensors: {fileID: 0}
+  sensors: {fileID: 314269687655328018}
+  brain: {fileID: -5524759435757811097}
+--- !u!114 &-5524759435757811097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463128404296570259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17750e8c01384c4459b59de47e84cc64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  sensors: {fileID: 314269687655328018}
+  target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
+  attackRange: 0
+  canAttack: 0
+  isForwardClear: 0
+  blockedTarget: {fileID: 0}
+  desiredDirection: {x: 0, y: 0, z: 0}
+  fireRequested: 0
 --- !u!114 &314269687655328018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySensors
   playerTransform: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
   selfTransform: {fileID: 6758594396944434396}
-  attackRange: 6
+  attackRange: 7
   bodyCollider: {fileID: 869010712242435694}
   forwardBlockMask:
     serializedVersion: 2
@@ -585,3 +608,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankHealth
   maxHp: 1
+--- !u!114 &6462234765356529583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463128404296570259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
+  m_Graph: {fileID: 3312823050134019108, guid: ea5caa15fffb39f4da3a81d2b71017d3, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 9005724862870192197
+  - rid: 9005724862870192198
+  - rid: 9005724862870192199
+  m_OriginalGraph: {fileID: 0}
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 9005724862870192197
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 8463128404296570259}
+    - rid: 9005724862870192198
+      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 11981499808659133276
+          m_Value1: 336442825405750588
+        Name: Base
+        m_Value: {fileID: 6064116782869292912, guid: 87fdbfece99997f4e81e2ca52732fcb7, type: 3}
+    - rid: 9005724862870192199
+      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 6098876271589125956
+          m_Value1: 15852000129793249638
+        Name: Target
+        m_Value: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}

@@ -4,25 +4,24 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyMovement movement;
     [SerializeField] private EnemySensors sensors;
-
-    // 나중에 붙일 예정
-    // [SerializeField] private EnemyBrain brain;
+    [SerializeField] private EnemyBrain brain;
 
     private void Awake()
     {
         if (movement == null) movement = GetComponent<EnemyMovement>();
         if (sensors == null) sensors = GetComponent<EnemySensors>();
-        // if (brain == null) brain = GetComponent<EnemyBrain>();
+        if (brain == null) brain = GetComponent<EnemyBrain>();
     }
 
     private void Update()
     {
-        // 1) AI가 준 의도(임시로 하드코딩)
-        // 나중에 : Vector3 moveDir = brain.GetMoveDir();
-        Vector3 moveDir = Vector3.forward;  // Test용
-        
-        // 2) 실행
-        sensors.Tick(moveDir);
-        movement.Tick(moveDir);
+        // 센서 전방 체크는 보통 "현재 바라보는 방향"
+        sensors.Tick(transform.forward);
+
+        // 두뇌(의사결정)
+        brain.Tick();
+
+        // 실행
+        movement.Tick(brain.GetMoveDir());
     }
 }

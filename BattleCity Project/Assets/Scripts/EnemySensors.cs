@@ -111,21 +111,17 @@ public class EnemySensors : MonoBehaviour
 
         if (bodyCollider != null)
         {
-            // 로컬 사이즈 기반 "앞면까지 반길이"
-            // forward로 갈 때 실제로 앞면이 x인지 z인지 판단해야 함
-            Vector3 localSize = bodyCollider.size;
-            Vector3 localDir = transform.InverseTransformDirection(dir);
+            // 월드 기준 반 크기
+            Vector3 extents = bodyCollider.bounds.extents;
+            
+            // forward 방향 기준으로 가장 큰 축 선택
+            float offset = Mathf.Abs(Vector3.Dot(extents, transform.forward));
+            
+            forwardOffset = offset + forwardRayForwardExtra;
 
-            float halfX = localSize.x * 0.5f;
-            float halfZ = localSize.z * 0.5f;
-
-            // forward 방향이 로컬 x축에 더 가깝냐 z축에 더 가깝냐로 선택
-            bool usesX = Mathf.Abs(localDir.x) > Mathf.Abs(localDir.z);
-            forwardOffset = (usesX ? halfX : halfZ) + forwardRayForwardExtra;
-
-            // center 고려 (BoxCollider.center는 로컬)
-            Vector3 centerWorld = transform.TransformPoint(bodyCollider.center);
-            return centerWorld + Vector3.up * forwardRayHeight + dir * forwardOffset;
+            return bodyCollider.bounds.center
+                   + Vector3.up * forwardRayHeight
+                   + dir * forwardOffset;
         }
 
         return transform.position + Vector3.up * forwardRayHeight + dir * (forwardOffset + forwardRayForwardExtra);
