@@ -21,4 +21,9 @@ public class Tiles : MonoBehaviour, IProjectileHittable
                 break;
         }
     }
+    
+    public bool IsBreakable()
+    {
+        return tileType == TileType.Breakable;
+    }
 }
