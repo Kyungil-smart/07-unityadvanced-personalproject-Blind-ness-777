@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TankHealth : MonoBehaviour, IProjectileHittable
+public class EnemyTankHealth : MonoBehaviour, IProjectileHittable
 {
     [SerializeField] private TankData tankData;
     private int currentHp;
@@ -26,6 +26,8 @@ public class TankHealth : MonoBehaviour, IProjectileHittable
     private void Die()
     {
         GameManager.Instance?.AddScore(tankData != null ? tankData.scoreValue : 0);
+        ItemManager.Instance?.TrySpawnItem(transform.position);
+        FindObjectOfType<SpawnManager>()?.OnEnemyDied();
         gameObject.SetActive(false);
     }
 }

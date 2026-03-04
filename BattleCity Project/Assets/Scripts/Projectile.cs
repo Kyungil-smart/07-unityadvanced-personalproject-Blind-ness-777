@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
 
     private float moveSpeed;
     private Vector3 moveDirection;
+    private int ownerLayer;
 
     private void Awake()
     {
@@ -22,12 +23,11 @@ public class Projectile : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
-    public void Launch(Vector3 direction, float speed)
+    public void Launch(Vector3 direction, float speed, int layer = -1)
     {
         moveDirection = direction.normalized;
         moveSpeed = speed;
-        
-        // 풀링 대비: 이전 프레임 잔재 제거
+        ownerLayer = layer;
         if (rb != null) rb.position = transform.position;
     }
 
@@ -73,6 +73,9 @@ public class Projectile : MonoBehaviour
 
     private void HandleHit(Collider other, RaycastHit hit)
     {
+        if (ownerLayer != -1 && other.gameObject.layer == ownerLayer)
+            return;
+
         Projectile otherProjectile = other.GetComponent<Projectile>();
         if (otherProjectile != null)
         {
@@ -83,9 +86,7 @@ public class Projectile : MonoBehaviour
 
         IProjectileHittable hittable = other.GetComponent<IProjectileHittable>();
         if (hittable != null)
-        {
             hittable.OnProjectileHit(this, hit);
-        }
 
         Deactivate();
     }

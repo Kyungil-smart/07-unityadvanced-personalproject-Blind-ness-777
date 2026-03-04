@@ -26,6 +26,6 @@ public class Base : MonoBehaviour, IProjectileHittable
         }
 
         Debug.Log("GAME OVER: Base destroyed");
-        // 다음 단계: GameManager 같은 곳에 게임오버 알림 연결
+        GameManager.Instance?.GameOver();
     }
 }

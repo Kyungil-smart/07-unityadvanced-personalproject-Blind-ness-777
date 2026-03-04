@@ -26,15 +26,16 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // ====== 점수 ======
+    // 점수
     public void AddScore(int amount)
     {
         score += amount;
+        GameUIManager.Instance?.UpdateScore();
     }
 
     public int GetScore() => score;
 
-    // ====== 목숨 ======
+    // 목숨
     public int GetLives() => lives;
 
     public void LoseLife()
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
             GameOver();
     }
 
-    // ====== 스테이지 ======
+    // 스테이지
     public int GetCurrentStage() => currentStage;
 
     public void StageClear()
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(mainMenuScene);
     }
 
-    // ====== 씬 전환 ======
+    // 씬 전환
     public void LoadMainMenu()
     {
         currentStage = 1;

@@ -125,7 +125,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
         desiredDirection = next;
     }
 
-    // ====== Controller가 읽는 출력 ======
+    // Controller가 읽는 출력
     public Vector3 GetMoveDir()
     {
         if (desiredDirection == Vector3.zero)
@@ -149,13 +149,13 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
     public void IncrementWallStuckCounter() => wallStuckCounter++;
     public void ResetWallStuckCounter() => wallStuckCounter = 0;
 
-    // ====== IEnemyBlackboardWriter ======
+    // IEnemyBlackboardWriter
     public void SetTarget(Transform t) { }
     public void SetAttackRange(float r) { }
     public void SetIsForwardClear(bool v) => isForwardClear = v;
     public void SetBlockedTarget(Transform t) { }
 
-    // ====== 유틸 ======
+    // 유틸
     private Vector3 SnapToCardinal(Vector3 dir)
     {
         dir.y = 0f;

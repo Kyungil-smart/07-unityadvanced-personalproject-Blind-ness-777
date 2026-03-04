@@ -39,7 +39,6 @@ public class InputManager : MonoBehaviour
     private void OnMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
-        Debug.Log($"{moveInput}");
     }
     
     private void OnAttack(InputAction.CallbackContext ctx)
