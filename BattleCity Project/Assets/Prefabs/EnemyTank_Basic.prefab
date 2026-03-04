@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 3892815610879013690}
   - component: {fileID: 4679291264629134563}
   m_Layer: 7
-  m_Name: EnemyTank_01
+  m_Name: EnemyTank_Basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,6 +537,7 @@ MonoBehaviour:
   sensors: {fileID: 314269687655328018}
   brain: {fileID: -5524759435757811097}
   attack: {fileID: 4679291264629134563}
+  thinkInterval: 0.25
 --- !u!114 &-5524759435757811097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,6 +557,7 @@ MonoBehaviour:
   stageLevel: 1
   wallStuckCounter: 0
   tryInterval: 0.25
+  randomTurnInterval: 2
 --- !u!114 &314269687655328018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342e12253b7840641826c925bc6b01ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankHealth
-  maxHp: 1
+  tankData: {fileID: 11400000, guid: 25cb40320582ef34f83a3bde797074da, type: 2}
 --- !u!114 &4679291264629134563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,8 +621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   brain: {fileID: -5524759435757811097}
+  tankData: {fileID: 11400000, guid: 25cb40320582ef34f83a3bde797074da, type: 2}
   projectilePrefab: {fileID: 4894765710890885353, guid: 621d8ef90652261468eae3e8251f7e64, type: 3}
   firePoint: {fileID: 8921752891114363094}
   projectileSpeed: 15
-  fireCooldown: 0.6
   ownerCollider: {fileID: 869010712242435694}
