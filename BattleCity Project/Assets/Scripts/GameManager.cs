@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        GameUIManager.Instance?.UpdateScore();
     }
 
     public int GetScore() => score;

@@ -581,7 +581,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SCORE : '
+  m_text: 'SCORE
+
+    0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d91f25b7ba2d05d4bb7751e4cc23f6a9, type: 2}
   m_sharedMaterial: {fileID: -1405762325579853587, guid: d91f25b7ba2d05d4bb7751e4cc23f6a9, type: 2}
@@ -621,7 +625,7 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 30
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
