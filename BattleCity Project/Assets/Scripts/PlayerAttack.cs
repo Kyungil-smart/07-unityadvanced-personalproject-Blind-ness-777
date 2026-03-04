@@ -27,7 +27,6 @@ public class PlayerAttack : MonoBehaviour
     
     public void Tick()
     {
-        if (HasActiveProjectile()) return;
         if (Time.time < nextFireTime) return;
         if (!inputManager.ConsumeFireRequested()) return;
         
@@ -41,12 +40,10 @@ public class PlayerAttack : MonoBehaviour
             bullet.Launch(firePointDirection.forward, projectileSpeed);
         
         nextFireTime = Time.time + fireCooldown;
-        // _activeProjectiles++;
     }
     
-    private bool HasActiveProjectile()
+    public void SetFireCooldown(float cooldown)
     {
-        // TODO: 현재 살아있는 발사체가 있는지 판단
-        return false;
+        fireCooldown = cooldown;
     }
 }
