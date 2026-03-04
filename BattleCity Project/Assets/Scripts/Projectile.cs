@@ -13,8 +13,6 @@ public class Projectile : MonoBehaviour
     private float moveSpeed;
     private Vector3 moveDirection;
 
-    private readonly float skin = 0.01f;
-
     private void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
@@ -56,7 +54,7 @@ public class Projectile : MonoBehaviour
             }
 
             // hit.point는 "캐스트 중심" 기준이므로, 다시 오프셋을 되돌려서 실제 총알 위치를 계산
-            Vector3 stopPos = (hit.point - moveDirection * skin) - castOffset;
+            Vector3 stopPos = prevPos + moveDirection * (hit.distance) - castOffset;
             rb.MovePosition(stopPos);
 
             HandleHit(hit.collider, hit);

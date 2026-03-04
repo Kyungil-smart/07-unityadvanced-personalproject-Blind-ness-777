@@ -448,7 +448,6 @@ GameObject:
   - component: {fileID: 314269687655328018}
   - component: {fileID: 9140497955755178006}
   - component: {fileID: 3892815610879013690}
-  - component: {fileID: 6462234765356529583}
   - component: {fileID: 4679291264629134563}
   m_Layer: 7
   m_Name: EnemyTank_01
@@ -465,15 +464,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8463128404296570259}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 13.6047945}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1635327782653806746}
   - {fileID: 8921752891114363094}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &3291447007707520495
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -553,13 +552,10 @@ MonoBehaviour:
   desiredDirection: {x: 0, y: 0, z: 1}
   fireRequested: 0
   isForwardClear: 1
-  blockedTarget: {fileID: 0}
-  canAttack: 0
-  requestFireCooldown: 0.3
   baseTarget: {fileID: 0}
-  target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
   stageLevel: 1
   wallStuckCounter: 0
+  tryInterval: 0.25
 --- !u!114 &314269687655328018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +570,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySensors
   playerTransform: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
   selfTransform: {fileID: 6758594396944434396}
-  attackRange: 7
   bodyCollider: {fileID: 869010712242435694}
   forwardBlockMask:
     serializedVersion: 2
@@ -582,7 +577,6 @@ MonoBehaviour:
   forwardRayForwardExtra: 0.8
   forwardCheckDistance: 1.2
   forwardRayHeight: 1
-  canAttack: 0
   isForwardClear: 0
   blockedTarget: {fileID: 0}
 --- !u!114 &9140497955755178006
@@ -612,44 +606,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankHealth
   maxHp: 1
---- !u!114 &6462234765356529583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463128404296570259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
-  m_Graph: {fileID: 155273353321053368, guid: e0bf86097f87b7f4e9fcf15689334bbc, type: 2}
-  m_BlackboardVariableOverridesList:
-  - rid: 9005724897492599414
-  - rid: 9005724897492599596
-  m_OriginalGraph: {fileID: 155273353321053368, guid: e0bf86097f87b7f4e9fcf15689334bbc, type: 2}
-  m_IsInitialised: 0
-  m_IsStarted: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 9005724897492599414
-      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 1
-          m_Value1: 0
-        Name: Self
-        m_Value: {fileID: 0}
-    - rid: 9005724897492599596
-      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 4246710889124603567
-          m_Value1: 4333197194289282834
-        Name: BaseTarget
-        m_Value: {fileID: 0}
 --- !u!114 &4679291264629134563
 MonoBehaviour:
   m_ObjectHideFlags: 0

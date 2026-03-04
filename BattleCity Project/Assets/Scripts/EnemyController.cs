@@ -6,6 +6,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private EnemySensors sensors;
     [SerializeField] private EnemyBrain brain;
     [SerializeField] private EnemyAttack attack;
+    [SerializeField] private float thinkInterval = 0.25f;
+    private float nextThinkTime;
 
     private void Awake()
     {
@@ -14,37 +16,24 @@ public class EnemyController : MonoBehaviour
         if (brain == null) brain = GetComponent<EnemyBrain>();
         if (attack == null) attack = GetComponent<EnemyAttack>();
 
-        // 센서가 BT 입력(블랙보드 대신 Brain)에 쓰도록 연결
         if (sensors != null && brain != null)
-        {
             sensors.SetBlackboardWriter(brain);
-        }
     }
 
     private void Update()
     {
-        // 1) 센서: "가려는 방향" 기준으로 전방 체크 (transform.forward 쓰지 마)
-        Vector3 forwardForSensor = brain != null ? brain.GetMoveDir() : transform.forward;
-        sensors.Tick(forwardForSensor);
+        if (sensors != null) sensors.Tick(brain.GetMoveDir());
 
-        // 2) 실행: 이동은 여기서만!
-        if (movement != null && brain != null)
+        if (Time.time >= nextThinkTime)
         {
+            nextThinkTime = Time.time + thinkInterval;
+            brain.Think();
+        }
+
+        if (movement != null)
             movement.Tick(brain.GetMoveDir());
-        }
 
-        // 3) 실행: 발사도 여기서만!
-        if (brain != null)
-        {
-            bool fire = brain.ConsumeFireRequested();
-            Debug.Log("[CTRL] ConsumeFireRequested=" + fire);
-
-            if (fire)
-            {
-                Debug.Log("[CTRL] attack.Tick CALLED");
-                if (attack != null) attack.Tick();
-                else Debug.Log("[CTRL] attack is NULL");
-            }
-        }
+        if (brain.ConsumeFireRequested())
+            if (attack != null) attack.Tick();
     }
 }

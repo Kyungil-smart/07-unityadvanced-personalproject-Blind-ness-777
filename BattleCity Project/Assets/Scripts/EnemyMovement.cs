@@ -48,7 +48,7 @@ public class EnemyMovement : MonoBehaviour
         rb.MoveRotation(Quaternion.LookRotation(direction));
 
         // 이동 전 SweepTest (0.2f 여유)
-        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 0.2f))
+        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 1.5f))
         {
             return; // 벽이면 이동만 중단
         }
