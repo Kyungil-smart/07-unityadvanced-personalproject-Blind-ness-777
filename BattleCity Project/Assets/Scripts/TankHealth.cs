@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class TankHealth : MonoBehaviour, IProjectileHittable
 {
-    [SerializeField] private int maxHp = 1;
+    [SerializeField] private TankData tankData;
     private int currentHp;
 
     private void Awake()
     {
-        currentHp = maxHp;
+        currentHp = tankData != null ? tankData.maxHp : 1;
     }
 
     public void OnProjectileHit(Projectile projectile, RaycastHit hit)
@@ -20,13 +20,12 @@ public class TankHealth : MonoBehaviour, IProjectileHittable
         currentHp -= damage;
 
         if (currentHp <= 0)
-        {
             Die();
-        }
     }
 
     private void Die()
     {
+        GameManager.Instance?.AddScore(tankData != null ? tankData.scoreValue : 0);
         gameObject.SetActive(false);
     }
 }

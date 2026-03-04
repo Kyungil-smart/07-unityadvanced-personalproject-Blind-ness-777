@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd42044c5f85624c885efcf3c578f25, type: 3}
+  m_Name: StageData_1
+  m_EditorClassIdentifier: Assembly-CSharp::StageData
+  totalEnemyCount: 10
+  maxActiveEnemies: 2
+  spawnInterval: 2.5
+  spawnPositions:
+  - {x: -70, y: 0, z: 82}
+  - {x: 70, y: 0, z: 82}
+  basicRatio: 100
+  mediumRatio: 0
+  heavyRatio: 0
+  basicPrefab: {fileID: 8463128404296570259, guid: c96cbcb8d298ba64c9f25dbbb9088ef0, type: 3}
+  mediumPrefab: {fileID: 4899925197387026815, guid: e87de18324ac59f448d990b5fdb2df16, type: 3}
+  heavyPrefab: {fileID: 3693998884738389738, guid: abcadd8f8f35d00499ca052596017b11, type: 3}

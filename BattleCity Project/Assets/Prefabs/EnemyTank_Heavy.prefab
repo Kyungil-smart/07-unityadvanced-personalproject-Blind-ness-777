@@ -102,10 +102,13 @@ GameObject:
   - component: {fileID: 5216898829244734382}
   - component: {fileID: 5986306970168193342}
   - component: {fileID: 653529495399232080}
+  - component: {fileID: 3064248643926023393}
+  - component: {fileID: 7832965685288325549}
   - component: {fileID: 5379435891688992872}
   - component: {fileID: 2066309230401962802}
+  - component: {fileID: 6932267100566731774}
   m_Layer: 7
-  m_Name: EnemyTank_03
+  m_Name: EnemyTank_Heavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,9 +192,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   movement: {fileID: 5379435891688992872}
-  sensors: {fileID: 0}
-  brain: {fileID: 0}
-  attack: {fileID: 0}
+  sensors: {fileID: 7832965685288325549}
+  brain: {fileID: 3064248643926023393}
+  attack: {fileID: 6932267100566731774}
+  thinkInterval: 0.25
+--- !u!114 &3064248643926023393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17750e8c01384c4459b59de47e84cc64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  desiredDirection: {x: 0, y: 0, z: 1}
+  fireRequested: 0
+  isForwardClear: 1
+  baseTarget: {fileID: 0}
+  stageLevel: 1
+  wallStuckCounter: 0
+  tryInterval: 0.25
+  randomTurnInterval: 2
+--- !u!114 &7832965685288325549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af02a007a898ceb49a1641de9b501108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySensors
+  playerTransform: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
+  selfTransform: {fileID: 628426308360967297}
+  bodyCollider: {fileID: 5986306970168193342}
+  forwardBlockMask:
+    serializedVersion: 2
+    m_Bits: 3600
+  forwardRayForwardExtra: 0.15
+  forwardCheckDistance: 0.8
+  forwardRayHeight: 0.2
+  isForwardClear: 0
+  blockedTarget: {fileID: 0}
 --- !u!114 &5379435891688992872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +265,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342e12253b7840641826c925bc6b01ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TankHealth
-  maxHp: 1
+  tankData: {fileID: 11400000, guid: 7b370ffc14bfec049b0a00aa032d7862, type: 2}
+--- !u!114 &6932267100566731774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693998884738389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc0829f5ac44074787703ade9451f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  brain: {fileID: 3064248643926023393}
+  tankData: {fileID: 11400000, guid: 7b370ffc14bfec049b0a00aa032d7862, type: 2}
+  projectilePrefab: {fileID: 4894765710890885353, guid: 621d8ef90652261468eae3e8251f7e64, type: 3}
+  firePoint: {fileID: 126510240273277478}
+  projectileSpeed: 15
+  ownerCollider: {fileID: 5986306970168193342}
 --- !u!1 &3871730638664385227
 GameObject:
   m_ObjectHideFlags: 0
