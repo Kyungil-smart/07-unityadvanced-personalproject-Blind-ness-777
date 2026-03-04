@@ -31,7 +31,8 @@ public class EnemyAttack : MonoBehaviour
         nextFireTime = Time.time + fireCooldown;
 
         // 생성
-        GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Vector3 spawnPos = firePoint.position + firePoint.forward * 0.4f;
+        GameObject bullet = Instantiate(projectilePrefab, spawnPos, firePoint.rotation);
 
         // 자기 자신과 충돌 무시(필요 시)
         if (ownerCollider != null)

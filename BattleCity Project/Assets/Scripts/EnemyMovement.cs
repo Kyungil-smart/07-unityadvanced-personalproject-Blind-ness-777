@@ -44,20 +44,16 @@ public class EnemyMovement : MonoBehaviour
     {
         if (direction == Vector3.zero) return;
 
-        // 방향이 바뀌었으면 회전만 하고 종료 (턴 프레임)
-        if (direction != lookDir)
-        {
-            lookDir = direction;
-            rb.MoveRotation(Quaternion.LookRotation(lookDir));
-            return;
-        }
-        
-        // 방향 같으면 직선 이동
-        Vector3 currentPos = rb.position;
-        float distance = speed * Time.fixedDeltaTime;
+        // 회전은 무조건 실행
+        rb.MoveRotation(Quaternion.LookRotation(direction));
 
-        Vector3 nextPos = currentPos + lookDir * distance;
-        rb.MovePosition(nextPos);
+        // 이동 전 SweepTest (0.2f 여유)
+        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 0.2f))
+        {
+            return; // 벽이면 이동만 중단
+        }
+
+        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
     
     private Vector3 SnapToCardinal(Vector3 dir)
@@ -77,6 +73,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("HIT: " + collision.gameObject.name);
+        // Debug.Log("HIT: " + collision.gameObject.name);
     }
 }

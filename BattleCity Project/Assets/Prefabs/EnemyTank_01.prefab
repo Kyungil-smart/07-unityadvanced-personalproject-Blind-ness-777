@@ -466,7 +466,7 @@ Transform:
   m_GameObject: {fileID: 8463128404296570259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 13.6047945}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -550,15 +550,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17750e8c01384c4459b59de47e84cc64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  sensors: {fileID: 314269687655328018}
-  behaviorAgent: {fileID: 6462234765356529583}
-  target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
-  attackRange: 0
-  canAttack: 0
-  isForwardClear: 0
-  blockedTarget: {fileID: 0}
-  desiredDirection: {x: 0, y: 0, z: 0}
+  desiredDirection: {x: 0, y: 0, z: 1}
   fireRequested: 0
+  isForwardClear: 1
+  blockedTarget: {fileID: 0}
+  canAttack: 0
+  requestFireCooldown: 0.3
+  baseTarget: {fileID: 0}
+  target: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
+  stageLevel: 1
+  wallStuckCounter: 0
 --- !u!114 &314269687655328018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,9 +579,9 @@ MonoBehaviour:
   forwardBlockMask:
     serializedVersion: 2
     m_Bits: 3600
-  forwardRayForwardExtra: 0.5
-  forwardCheckDistance: 0.8
-  forwardRayHeight: 0.2
+  forwardRayForwardExtra: 0.8
+  forwardCheckDistance: 1.2
+  forwardRayHeight: 1
   canAttack: 0
   isForwardClear: 0
   blockedTarget: {fileID: 0}
@@ -623,41 +624,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
-  m_Graph: {fileID: 3312823050134019108, guid: ea5caa15fffb39f4da3a81d2b71017d3, type: 2}
+  m_Graph: {fileID: 155273353321053368, guid: e0bf86097f87b7f4e9fcf15689334bbc, type: 2}
   m_BlackboardVariableOverridesList:
-  - rid: 9005724862870192197
-  - rid: 9005724862870192199
-  - rid: 9005724862870192592
-  m_OriginalGraph: {fileID: 0}
+  - rid: 9005724897492599414
+  - rid: 9005724897492599596
+  m_OriginalGraph: {fileID: 155273353321053368, guid: e0bf86097f87b7f4e9fcf15689334bbc, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
     version: 2
     RefIds:
-    - rid: 9005724862870192197
+    - rid: 9005724897492599414
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
           m_Value0: 1
           m_Value1: 0
         Name: Self
-        m_Value: {fileID: 8463128404296570259}
-    - rid: 9005724862870192199
+        m_Value: {fileID: 0}
+    - rid: 9005724897492599596
       type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
-          m_Value0: 6098876271589125956
-          m_Value1: 15852000129793249638
-        Name: Target
-        m_Value: {fileID: 6175379952528041819, guid: 209f919de3904604c832d5d74a08dd4d, type: 3}
-    - rid: 9005724862870192592
-      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
-      data:
-        GUID:
-          m_Value0: 2626947682429906009
-          m_Value1: 13771043544396506325
+          m_Value0: 4246710889124603567
+          m_Value1: 4333197194289282834
         Name: BaseTarget
-        m_Value: {fileID: 6064116782869292912, guid: 87fdbfece99997f4e81e2ca52732fcb7, type: 3}
+        m_Value: {fileID: 0}
 --- !u!114 &4679291264629134563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,6 +665,6 @@ MonoBehaviour:
   brain: {fileID: -5524759435757811097}
   projectilePrefab: {fileID: 4894765710890885353, guid: 621d8ef90652261468eae3e8251f7e64, type: 3}
   firePoint: {fileID: 8921752891114363094}
-  projectileSpeed: 10
+  projectileSpeed: 15
   fireCooldown: 0.6
   ownerCollider: {fileID: 869010712242435694}

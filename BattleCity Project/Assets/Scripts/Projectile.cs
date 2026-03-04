@@ -28,6 +28,9 @@ public class Projectile : MonoBehaviour
     {
         moveDirection = direction.normalized;
         moveSpeed = speed;
+        
+        // 풀링 대비: 이전 프레임 잔재 제거
+        if (rb != null) rb.position = transform.position;
     }
 
     private void FixedUpdate()
@@ -63,6 +66,12 @@ public class Projectile : MonoBehaviour
         Vector3 nextPos = prevPos + moveDirection * distance;
         rb.MovePosition(nextPos);
     }
+    
+    private void OnDisable()
+    {
+        moveSpeed = 0f;
+        moveDirection = Vector3.zero;
+    }
 
     private void HandleHit(Collider other, RaycastHit hit)
     {
@@ -85,6 +94,9 @@ public class Projectile : MonoBehaviour
 
     private void Deactivate()
     {
+        moveSpeed = 0f;
+        moveDirection = Vector3.zero;
+        
         gameObject.SetActive(false);
     }
 }

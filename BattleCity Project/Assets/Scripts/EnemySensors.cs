@@ -63,7 +63,9 @@ public class EnemySensors : MonoBehaviour
             Vector3 dir = forwardDirection.normalized;
 
             RaycastHit hit;
-            if (Physics.Raycast(origin, dir, out hit, forwardCheckDistance, forwardBlockMask, QueryTriggerInteraction.Ignore))
+            bool didHit = Physics.Raycast(origin, dir, out hit, forwardCheckDistance, forwardBlockMask, QueryTriggerInteraction.Ignore);
+
+            if (didHit)
             {
                 nextIsForwardClear = false;
                 nextBlockedTarget = hit.transform;
@@ -106,25 +108,20 @@ public class EnemySensors : MonoBehaviour
     {
         Vector3 dir = forwardDir.normalized;
 
-        // 기본값(콜라이더 못 받았을 때 최소한 작동)
+        // 기본
+        Vector3 center = (bodyCollider != null) ? bodyCollider.bounds.center : transform.position;
         float forwardOffset = 0.6f;
 
         if (bodyCollider != null)
         {
-            // 월드 기준 반 크기
-            Vector3 extents = bodyCollider.bounds.extents;
-            
-            // forward 방향 기준으로 가장 큰 축 선택
-            float offset = Mathf.Abs(Vector3.Dot(extents, transform.forward));
-            
-            forwardOffset = offset + forwardRayForwardExtra;
-
-            return bodyCollider.bounds.center
-                   + Vector3.up * forwardRayHeight
-                   + dir * forwardOffset;
+            // 탱크 크기에 맞게 "앞코"로 이동
+            float ext = Mathf.Max(bodyCollider.bounds.extents.x, bodyCollider.bounds.extents.z);
+            forwardOffset = ext + forwardRayForwardExtra; // 기존 extra 재사용
         }
 
-        return transform.position + Vector3.up * forwardRayHeight + dir * (forwardOffset + forwardRayForwardExtra);
+        return center
+               + Vector3.up * forwardRayHeight
+               + dir * forwardOffset;
     }
 }
 

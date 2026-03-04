@@ -1,99 +1,127 @@
 using UnityEngine;
-using Unity.Behavior;
-using Unity.Behavior.GraphFramework;
 
 public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
 {
-    [Header("References")]
-    [SerializeField] private EnemySensors sensors;
-    [SerializeField] private BehaviorGraphAgent behaviorAgent;
-
-    [Header("Blackboard (Debug)")]
-    [SerializeField] private Transform target;
-    [SerializeField] private float attackRange;
-    [SerializeField] private bool canAttack;
-    [SerializeField] private bool isForwardClear;
-    [SerializeField] private Transform blockedTarget;
-
-    [Header("Decision Output (Debug)")]
-    [SerializeField] private Vector3 desiredDirection;
+    [Header("BT Output (결정 결과)")]
+    [SerializeField] private Vector3 desiredDirection = Vector3.forward;
     [SerializeField] private bool fireRequested;
 
-    // BT Blackboard 캐시
-    private SerializableGUID desiredDirectionId;
-    private SerializableGUID fireRequestedId;
-    private bool hasDesiredDirectionId;
-    private bool hasFireRequestedId;
+    [Header("BT Input (센서 결과)")]
+    [SerializeField] private bool isForwardClear = true;
+    [SerializeField] private Transform blockedTarget;
+    [SerializeField] private bool canAttack;
+    [SerializeField] private float requestFireCooldown = 0.3f;
+    private float nextRequestFireTime;
+
+    [Header("Targets")]
+    [SerializeField] private Transform baseTarget;
+    [SerializeField] private Transform target; // (플레이어 등) 필요하면 센서에서 SetTarget로 받을 수 있음
+
+    [Header("Progress / Difficulty")]
+    [SerializeField] private int stageLevel = 1;
+    [SerializeField] private int wallStuckCounter;
 
     private void Awake()
     {
-        if (sensors == null) sensors = GetComponent<EnemySensors>();
-        if (sensors != null) sensors.SetBlackboardWriter(this);
-
-        if (behaviorAgent == null) behaviorAgent = GetComponent<BehaviorGraphAgent>();
-
-        // 문자열 접근은 “여기 한 번만” 쓰고, 이후엔 GUID로 접근 (오타 리스크/의존성 최소화)
-        // BehaviorGraphAgent는 변수명을 통해 ID를 얻고, ID로 Get/Set이 가능함 :contentReference[oaicite:1]{index=1}
-        if (behaviorAgent != null)
-        {
-            hasDesiredDirectionId = behaviorAgent.GetVariableID("desiredDirection", out desiredDirectionId);
-            hasFireRequestedId = behaviorAgent.GetVariableID("fireRequested", out fireRequestedId);
-        }
-
-        desiredDirection = Vector3.zero;
-        fireRequested = false;
+        // 방향 0 방지
+        if (desiredDirection == Vector3.zero) desiredDirection = Vector3.forward;
     }
 
-    // BT는 Behavior Agent가 이미 실행 중이므로, 여기서 출력값을 덮어쓰지 않는다.
-    public void Tick() { }
-
+    // ====== Controller가 읽는 출력 ======
     public Vector3 GetMoveDir()
     {
-        // BT Blackboard에서 읽기
-        if (behaviorAgent != null && hasDesiredDirectionId)
-        {
-            if (behaviorAgent.GetVariable<Vector3>(desiredDirectionId, out BlackboardVariable<Vector3> var))
-            {
-                desiredDirection = var.Value; // Debug 표시용
-                return desiredDirection;
-            }
-        }
-
-        // fallback (BT 변수 못 찾았을 때)
+        // 0이면 절대 멈추지 않게 fallback
+        if (desiredDirection == Vector3.zero) return transform.forward == Vector3.zero ? Vector3.forward : transform.forward;
         return desiredDirection;
+    }
+
+    public void SetDesiredDirection(Vector3 dir)
+    {
+        dir.y = 0f;
+        if (dir == Vector3.zero) return;
+        desiredDirection = SnapToCardinal(dir);
     }
 
     public bool ConsumeFireRequested()
     {
-        if (behaviorAgent != null && hasFireRequestedId)
-        {
-            if (behaviorAgent.GetVariable<bool>(fireRequestedId, out BlackboardVariable<bool> var))
-            {
-                fireRequested = var.Value; // Debug 표시용
-
-                if (!fireRequested) return false;
-
-                // 소비 처리: 다시 false로 내림 (BT/코드 간 인터페이스 안정화)
-                behaviorAgent.SetVariableValue<bool>(fireRequestedId, false); // :contentReference[oaicite:2]{index=2}
-                fireRequested = false;
-                return true;
-            }
-        }
-
-        // fallback
         if (!fireRequested) return false;
         fireRequested = false;
         return true;
     }
 
-    // ===== IEnemyBlackboardWriter (Sensors -> Brain) =====
-    public void SetTarget(Transform nextTarget) => target = nextTarget;
-    public void SetAttackRange(float nextAttackRange) => attackRange = nextAttackRange;
-    public void SetCanAttack(bool nextCanAttack) => canAttack = nextCanAttack;
-    public void SetIsForwardClear(bool nextIsForwardClear) => isForwardClear = nextIsForwardClear;
-    public void SetBlockedTarget(Transform nextBlockedTarget) => blockedTarget = nextBlockedTarget;
+    public void RequestFire()
+    {
+        Debug.Log($"[Brain] RequestFire CALLED t={Time.time:0.00} next={nextRequestFireTime:0.00}");
 
-    // ===== (선택) BT 노드가 Brain을 직접 건드리는 구조도 계속 지원 가능 =====
-    public void SetDesiredDirection(Vector3 dir) => desiredDirection = dir;
-    public void RequestFire() => fireRequested = true;
+        if (Time.time < nextRequestFireTime)
+        {
+            Debug.Log("[Brain] RequestFire BLOCKED by cooldown");
+            return;
+        }
+
+        nextRequestFireTime = Time.time + requestFireCooldown;
+        fireRequested = true;
+
+        Debug.Log($"[Brain] RequestFire ACCEPTED next={nextRequestFireTime:0.00}");
+    }
+
+    public bool GetIsForwardClear()
+    {
+        return isForwardClear;
+    }
+
+    public Transform GetBaseTarget()
+    {
+        return baseTarget;
+    }
+
+    public int GetStageLevel()
+    {
+        return stageLevel;
+    }
+
+    public int GetWallStuckCounter()
+    {
+        return wallStuckCounter;
+    }
+
+    public void IncrementWallStuckCounter()
+    {
+        wallStuckCounter++;
+    }
+
+    public void ResetWallStuckCounter()
+    {
+        wallStuckCounter = 0;
+    }
+
+    // ====== EnemySensors가 쓰는 입력 인터페이스 ======
+    public void SetTarget(Transform t) { target = t; }
+    public void SetAttackRange(float r) { /* 필요 시 저장 */ }
+    public bool GetCanAttack() { return canAttack; }
+    public void SetCanAttack(bool c) { canAttack = c; }
+
+    public void SetIsForwardClear(bool nextIsForwardClear)
+    {
+        isForwardClear = nextIsForwardClear;
+        // Debug.Log($"[Brain] isForwardClear <= {nextIsForwardClear}");
+    }
+
+    public void SetBlockedTarget(Transform t)
+    {
+        blockedTarget = t;
+    }
+
+    // ====== 유틸 ======
+    private Vector3 SnapToCardinal(Vector3 dir)
+    {
+        dir.y = 0f;
+        float absX = Mathf.Abs(dir.x);
+        float absZ = Mathf.Abs(dir.z);
+
+        if (absX >= absZ)
+            return (dir.x >= 0f) ? Vector3.right : Vector3.left;
+        else
+            return (dir.z >= 0f) ? Vector3.forward : Vector3.back;
+    }
 }
