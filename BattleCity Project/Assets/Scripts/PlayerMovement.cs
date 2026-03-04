@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
         rb.useGravity = false;
         rb.isKinematic = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
+        
+        rb.constraints = RigidbodyConstraints.FreezePositionY
+                         | RigidbodyConstraints.FreezeRotationX
+                         | RigidbodyConstraints.FreezeRotationZ;
     }
     
     public void Tick(Vector2 moveInput)
@@ -52,10 +56,12 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (direction == Vector3.zero) return;
-        
+
+        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 0.2f))
+            return;
+
         Vector3 currentPos = rb.position;
         float distance = speed * Time.fixedDeltaTime;
-        
         Vector3 nextPos = currentPos + direction * distance;
         rb.MovePosition(nextPos);
     }

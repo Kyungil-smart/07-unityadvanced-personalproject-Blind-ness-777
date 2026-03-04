@@ -35,9 +35,18 @@ public class PlayerAttack : MonoBehaviour
         
         GameObject bulletObject = Instantiate(projectilePrefab, spawnPosition, spawnRotation);
         
+        // 자기 자신과 충돌 무시 추가
+        Collider ownerCollider = GetComponent<Collider>();
+        if (ownerCollider != null)
+        {
+            Collider bulletCollider = bulletObject.GetComponent<Collider>();
+            if (bulletCollider != null)
+                Physics.IgnoreCollision(ownerCollider, bulletCollider, true);
+        }
+
         Projectile bullet = bulletObject.GetComponent<Projectile>();
         if (bullet != null)
-            bullet.Launch(firePointDirection.forward, projectileSpeed);
+            bullet.Launch(firePointDirection.forward, projectileSpeed, gameObject.layer);
         
         nextFireTime = Time.time + fireCooldown;
     }
