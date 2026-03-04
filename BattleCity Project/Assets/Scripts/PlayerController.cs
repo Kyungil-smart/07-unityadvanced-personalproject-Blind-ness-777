@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     {
         playerMovement.Tick(inputManager.MoveInput);
         playerAttack.Tick();
-        Debug.Log($"{inputManager.MoveInput}");
     }
 
     private void CameraChange()

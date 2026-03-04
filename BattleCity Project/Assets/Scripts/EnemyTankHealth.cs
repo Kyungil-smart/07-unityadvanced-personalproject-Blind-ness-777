@@ -26,7 +26,7 @@ public class EnemyTankHealth : MonoBehaviour, IProjectileHittable
     private void Die()
     {
         GameManager.Instance?.AddScore(tankData != null ? tankData.scoreValue : 0);
-        ItemManager.Instance?.TrySpawnItem();
+        ItemManager.Instance?.TrySpawnItem(transform.position);
         FindObjectOfType<SpawnManager>()?.OnEnemyDied();
         gameObject.SetActive(false);
     }

@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float speed = 2.0f;
+    [SerializeField] private LayerMask movementBlockMask;
     
     private Vector2 input;
     private Vector2 prevInput;
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (direction == Vector3.zero) return;
 
-        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 0.2f))
+        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 0.2f, QueryTriggerInteraction.Ignore))
             return;
 
         Vector3 currentPos = rb.position;
