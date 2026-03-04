@@ -19,6 +19,10 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
     [Header("발사 주기")]
     [SerializeField] private float tryInterval = 0.25f;
     private float nextTryTime;
+    
+    [Header("랜덤 방향 전환")]
+    [SerializeField] private float randomTurnInterval = 2f;
+    private float nextRandomTurnTime;
 
     private void Awake()
     {
@@ -53,6 +57,21 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
         wallStuckCounter = 0;
 
         if (baseTarget == null) return;
+
+        // 일정 확률로 랜덤 방향 전환
+        if (Time.time >= nextRandomTurnTime)
+        {
+            nextRandomTurnTime = Time.time + randomTurnInterval;
+
+            if (Random.value < 0.3f)
+            {
+                Vector3 cur = desiredDirection;
+                Vector3 right = new Vector3(-cur.z, 0f, cur.x);
+                Vector3 left  = new Vector3(cur.z, 0f, -cur.x);
+                desiredDirection = Random.value < 0.5f ? right : left;
+                return;
+            }
+        }
 
         Vector3 dir = baseTarget.position - transform.position;
         dir.y = 0f;
