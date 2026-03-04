@@ -42,6 +42,6 @@ public class EnemyAttack : MonoBehaviour
 
         Projectile projectile = bullet.GetComponent<Projectile>();
         if (projectile != null)
-            projectile.Launch(firePoint.forward, projectileSpeed);
+            projectile.Launch(firePoint.forward, projectileSpeed, gameObject.layer);
     }
 }

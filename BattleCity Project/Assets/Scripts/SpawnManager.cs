@@ -11,6 +11,7 @@ public class SpawnManager : MonoBehaviour
 
     private int spawnedEnemyCount = 0;
     private List<GameObject> activeEnemies = new List<GameObject>();
+    private int spawnPositionIndex = 0;
 
     private void Start()
     {
@@ -56,11 +57,15 @@ public class SpawnManager : MonoBehaviour
         GameObject prefab = GetRandomPrefab();
         if (prefab == null) return;
 
-        Vector3 spawnPos = GetRandomSpawnPosition();
+        Vector3 spawnPos = GetNextSpawnPosition();
         GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
 
         activeEnemies.Add(enemy);
         spawnedEnemyCount++;
+        
+        // 남은 적 수 = 총 적 수 - 현재까지 스폰된 수
+        int remaining = stageData.totalEnemyCount - spawnedEnemyCount;
+        GameUIManager.Instance?.UpdateEnemyCount(remaining);
     }
 
     private GameObject GetRandomPrefab()
@@ -74,21 +79,48 @@ public class SpawnManager : MonoBehaviour
         else
             return stageData.heavyPrefab;
     }
-
-    private Vector3 GetRandomSpawnPosition()
-    {
-        if (stageData.spawnPositions == null || stageData.spawnPositions.Length == 0)
-            return enemySpawnPoint.position;
-
-        int index = Random.Range(0, stageData.spawnPositions.Length);
-        return stageData.spawnPositions[index];
-    }
-
+    
     private void CheckStageClear()
     {
         activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
 
         if (spawnedEnemyCount >= stageData.totalEnemyCount && activeEnemies.Count == 0)
             GameManager.Instance?.StageClear();
+    }
+    
+    private Vector3 GetNextSpawnPosition()
+    {
+        if (stageData.spawnPositions == null || stageData.spawnPositions.Length == 0)
+            return enemySpawnPoint.position;
+
+        Vector3 pos = stageData.spawnPositions[spawnPositionIndex];
+        spawnPositionIndex = (spawnPositionIndex + 1) % stageData.spawnPositions.Length;
+        return pos;
+    }
+    
+    public void OnEnemyDied()
+    {
+        activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
+        CheckStageClear();
+    }
+    
+    public Vector3 GetPlayerSpawnPosition()
+    {
+        if (playerSpawnPoint != null)
+            return playerSpawnPoint.position;
+        return Vector3.zero;
+    }
+    
+    public void StartRespawn(GameObject player)
+    {
+        StartCoroutine(RespawnRoutine(player));
+    }
+
+    private IEnumerator RespawnRoutine(GameObject player)
+    {
+        player.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        player.transform.position = playerSpawnPoint.position;
+        player.SetActive(true);
     }
 }
