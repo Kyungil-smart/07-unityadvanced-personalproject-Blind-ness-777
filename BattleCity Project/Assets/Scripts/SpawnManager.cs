@@ -65,7 +65,7 @@ public class SpawnManager : MonoBehaviour
         
         // 남은 적 수 = 총 적 수 - 현재까지 스폰된 수
         int remaining = stageData.totalEnemyCount - spawnedEnemyCount;
-        GameUIManager.Instance?.UpdateEnemyCount(remaining);
+        FindObjectOfType<GameUIManager>()?.UpdateEnemyCount(remaining);
     }
 
     private GameObject GetRandomPrefab()
@@ -83,6 +83,7 @@ public class SpawnManager : MonoBehaviour
     private void CheckStageClear()
     {
         activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
+        Debug.Log($"[Spawn] spawnedEnemyCount={spawnedEnemyCount} total={stageData.totalEnemyCount} active={activeEnemies.Count}");
 
         if (spawnedEnemyCount >= stageData.totalEnemyCount && activeEnemies.Count == 0)
             GameManager.Instance?.StageClear();
@@ -101,6 +102,8 @@ public class SpawnManager : MonoBehaviour
     public void OnEnemyDied()
     {
         activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
+        int remaining = stageData.totalEnemyCount - spawnedEnemyCount;
+        FindObjectOfType<GameUIManager>()?.UpdateEnemyCount(remaining);
         CheckStageClear();
     }
     

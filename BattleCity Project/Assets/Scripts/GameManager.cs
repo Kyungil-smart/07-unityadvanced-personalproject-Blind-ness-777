@@ -9,10 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int currentStage = 1;
     [SerializeField] private int lives = 3;
     [SerializeField] private int score = 0;
+    public bool isEnding = false;
 
     [Header("씬 이름")]
     [SerializeField] private string mainMenuScene = "MainMenu";
-    [SerializeField] private string endingScene = "Ending";
+    [SerializeField] private string endingScene = "EndingCredit";
 
     private void Awake()
     {
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
-        GameUIManager.Instance?.UpdateScore();
+        FindObjectOfType<GameUIManager>()?.UpdateScore();
     }
 
     public int GetScore() => score;
@@ -63,10 +64,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        currentStage = 1;
-        lives = 3;
-        score = 0;
-        SceneManager.LoadScene(mainMenuScene);
+        SceneManager.LoadScene("GameOver");
     }
 
     // 씬 전환
@@ -80,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadEnding()
     {
+        isEnding = true;
         SceneManager.LoadScene(endingScene);
     }
 

@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
-    public static GameUIManager Instance { get; private set; }
-    
     [Header("텍스트")]
     [SerializeField] private TextMeshProUGUI stageNumText;
     [SerializeField] private TextMeshProUGUI enemyCountText;
@@ -13,16 +11,6 @@ public class GameUIManager : MonoBehaviour
 
     [Header("Lives")]
     [SerializeField] private RawImage[] lifeIcons; // 3개 연결
-    
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
     
     private void Start()
     {

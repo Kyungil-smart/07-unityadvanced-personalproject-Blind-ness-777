@@ -34,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
         Quaternion spawnRotation = Quaternion.LookRotation(firePointDirection.forward);
         
         GameObject bulletObject = Instantiate(projectilePrefab, spawnPosition, spawnRotation);
+        AudioManager.Instance?.PlayShotFiring();
         
         // 자기 자신과 충돌 무시 추가
         Collider ownerCollider = GetComponent<Collider>();

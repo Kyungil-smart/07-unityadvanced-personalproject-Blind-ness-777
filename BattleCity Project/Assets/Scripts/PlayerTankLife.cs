@@ -18,9 +18,10 @@ public class PlayerTankLife : MonoBehaviour, IProjectileHittable
 
     private void TakeHit()
     {
+        AudioManager.Instance?.PlayTankExplosion();
         tankUpgrade?.OnDestroyed();
         GameManager.Instance?.LoseLife();
-        GameUIManager.Instance?.UpdateLives();
+        FindObjectOfType<GameUIManager>()?.UpdateLives();
         FindObjectOfType<SpawnManager>()?.StartRespawn(gameObject);
     }
 }
