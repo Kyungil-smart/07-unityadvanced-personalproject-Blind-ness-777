@@ -9,21 +9,13 @@ public enum TileType
 public class Tiles : MonoBehaviour, IProjectileHittable
 {
     [SerializeField] private TileType tileType;
-    
+
+    // Breakable이면 피격 시 비활성화, Unbreakable이면 무시
     public void OnProjectileHit(Projectile projectile, RaycastHit hit)
     {
-        switch (tileType)
-        {
-            case TileType.Breakable:
-                gameObject.SetActive(false);
-                break;
-            case TileType.Unbreakable:
-                break;
-        }
+        if (tileType == TileType.Breakable)
+            gameObject.SetActive(false);
     }
-    
-    public bool IsBreakable()
-    {
-        return tileType == TileType.Breakable;
-    }
+
+    public bool IsBreakable() => tileType == TileType.Breakable;
 }

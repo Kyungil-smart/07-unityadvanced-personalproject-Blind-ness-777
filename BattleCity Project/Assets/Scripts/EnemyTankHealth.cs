@@ -23,6 +23,7 @@ public class EnemyTankHealth : MonoBehaviour, IProjectileHittable
             Die();
     }
 
+    // 사망 시 점수 추가, 아이템 드랍 시도, 비활성화 후 SpawnManager에 통보
     private void Die()
     {
         GameManager.Instance?.AddScore(tankData != null ? tankData.scoreValue : 0);

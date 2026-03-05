@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string mainMenuScene = "MainMenu";
     [SerializeField] private string endingScene = "EndingCredit";
 
+    // 씬 전환 후에도 상태 유지
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,7 +28,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // 점수
     public void AddScore(int amount)
     {
         score += amount;
@@ -35,10 +35,10 @@ public class GameManager : MonoBehaviour
     }
 
     public int GetScore() => score;
-
-    // 목숨
     public int GetLives() => lives;
+    public int GetCurrentStage() => currentStage;
 
+    // 목숨 차감. 0 이하면 게임오버
     public void LoseLife()
     {
         lives--;
@@ -47,9 +47,7 @@ public class GameManager : MonoBehaviour
             GameOver();
     }
 
-    // 스테이지
-    public int GetCurrentStage() => currentStage;
-
+    // 5스테이지 클리어 시 엔딩, 그 외엔 다음 스테이지로
     public void StageClear()
     {
         if (currentStage >= 5)
@@ -67,7 +65,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
-    // 씬 전환
+    // 메인메뉴로 돌아갈 때 모든 상태 초기화
     public void LoadMainMenu()
     {
         currentStage = 1;
@@ -76,6 +74,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(mainMenuScene);
     }
 
+    // isEnding 플래그로 EndingSceneManager가 엔딩/크레딧 분기 처리
     public void LoadEnding()
     {
         isEnding = true;

@@ -29,6 +29,7 @@ public class EnemySensors : MonoBehaviour
         blackboardWriter = writer;
     }
 
+    // 전방 레이캐스트로 장애물 감지 후 Brain에 결과 전달
     public void Tick(Vector3 forwardDirection)
     {
         Transform nextBlockedTarget = null;
@@ -58,16 +59,7 @@ public class EnemySensors : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (selfTransform == null) return;
-
-        Gizmos.DrawWireSphere(selfTransform.position, 0.3f);
-
-        Vector3 origin = selfTransform.position + Vector3.up * forwardRayHeight;
-        Gizmos.DrawLine(origin, origin + selfTransform.forward * forwardCheckDistance);
-    }
-
+    // 콜라이더 크기 기반으로 레이 시작점 계산
     private Vector3 GetForwardRayOrigin(Vector3 forwardDir)
     {
         Vector3 dir = forwardDir.normalized;
@@ -81,5 +73,15 @@ public class EnemySensors : MonoBehaviour
         }
 
         return center + Vector3.up * forwardRayHeight + dir * forwardOffset;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (selfTransform == null) return;
+
+        Gizmos.DrawWireSphere(selfTransform.position, 0.3f);
+
+        Vector3 origin = selfTransform.position + Vector3.up * forwardRayHeight;
+        Gizmos.DrawLine(origin, origin + selfTransform.forward * forwardCheckDistance);
     }
 }

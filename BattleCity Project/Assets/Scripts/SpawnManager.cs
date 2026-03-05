@@ -25,20 +25,19 @@ public class SpawnManager : MonoBehaviour
         Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
     }
 
+    // stageData.spawnInterval마다 적 스폰 시도. 총 스폰 수 초과 시 중단
     private IEnumerator SpawnRoutine()
     {
         while (true)
         {
             yield return new WaitForSeconds(stageData.spawnInterval);
 
-            // 총 스폰 수 초과 시 중단
             if (spawnedEnemyCount >= stageData.totalEnemyCount)
             {
                 CheckStageClear();
                 yield break;
             }
 
-            // 죽은 적 정리
             activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
 
             // 동시 활성화 수 미만일 때만 스폰
@@ -62,12 +61,12 @@ public class SpawnManager : MonoBehaviour
 
         activeEnemies.Add(enemy);
         spawnedEnemyCount++;
-        
-        // 남은 적 수 = 총 적 수 - 현재까지 스폰된 수
+
         int remaining = stageData.totalEnemyCount - spawnedEnemyCount;
         FindObjectOfType<GameUIManager>()?.UpdateEnemyCount(remaining);
     }
 
+    // StageData의 비율에 따라 랜덤으로 탱크 프리팹 반환
     private GameObject GetRandomPrefab()
     {
         int roll = Random.Range(0, 100);
@@ -79,16 +78,17 @@ public class SpawnManager : MonoBehaviour
         else
             return stageData.heavyPrefab;
     }
-    
+
+    // 모든 적이 스폰되고 전멸 시 스테이지 클리어
     private void CheckStageClear()
     {
         activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
-        Debug.Log($"[Spawn] spawnedEnemyCount={spawnedEnemyCount} total={stageData.totalEnemyCount} active={activeEnemies.Count}");
 
         if (spawnedEnemyCount >= stageData.totalEnemyCount && activeEnemies.Count == 0)
             GameManager.Instance?.StageClear();
     }
-    
+
+    // 스폰 위치를 순서대로 순환
     private Vector3 GetNextSpawnPosition()
     {
         if (stageData.spawnPositions == null || stageData.spawnPositions.Length == 0)
@@ -98,7 +98,8 @@ public class SpawnManager : MonoBehaviour
         spawnPositionIndex = (spawnPositionIndex + 1) % stageData.spawnPositions.Length;
         return pos;
     }
-    
+
+    // EnemyTankHealth.Die()에서 호출. 적 사망 시 카운트 갱신 및 클리어 체크
     public void OnEnemyDied()
     {
         activeEnemies.RemoveAll(e => e == null || !e.activeInHierarchy);
@@ -106,14 +107,15 @@ public class SpawnManager : MonoBehaviour
         FindObjectOfType<GameUIManager>()?.UpdateEnemyCount(remaining);
         CheckStageClear();
     }
-    
+
     public Vector3 GetPlayerSpawnPosition()
     {
         if (playerSpawnPoint != null)
             return playerSpawnPoint.position;
         return Vector3.zero;
     }
-    
+
+    // 피격 후 2초 대기 후 스폰 위치에서 부활
     public void StartRespawn(GameObject player)
     {
         StartCoroutine(RespawnRoutine(player));

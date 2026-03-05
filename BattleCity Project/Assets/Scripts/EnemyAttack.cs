@@ -21,10 +21,10 @@ public class EnemyAttack : MonoBehaviour
         if (ownerCollider == null) ownerCollider = GetComponent<Collider>();
     }
 
+    // EnemyController에서 매 프레임 호출. Brain이 발사 요청 시에만 실행
     public void Tick()
     {
-        if (projectilePrefab == null) return;
-        if (firePoint == null) return;
+        if (projectilePrefab == null || firePoint == null) return;
 
         float cooldown = tankData != null ? tankData.fireCooldown : 3.0f;
         if (Time.time < nextFireTime) return;
@@ -33,6 +33,7 @@ public class EnemyAttack : MonoBehaviour
         Vector3 spawnPos = firePoint.position + firePoint.forward * 0.4f;
         GameObject bullet = Instantiate(projectilePrefab, spawnPos, firePoint.rotation);
 
+        // 발사한 탱크 자신과의 충돌 무시
         if (ownerCollider != null)
         {
             Collider bulletCollider = bullet.GetComponent<Collider>();

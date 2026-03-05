@@ -4,9 +4,9 @@ public class PlayerTankUpgrade : MonoBehaviour
 {
     [Header("강화 단계별 색상")]
     [SerializeField] private Color stage1Color = Color.blue;
-    [SerializeField] private Color stage2Color = new Color(0.5f, 0.8f, 1f); // 하늘색
-    [SerializeField] private Color stage3Color = new Color(1f, 0.9f, 0f);   // 노란색
-    [SerializeField] private Color superColor = new Color(1f, 0.7f, 0f);    // 황금색
+    [SerializeField] private Color stage2Color = new Color(0.5f, 0.8f, 1f);
+    [SerializeField] private Color stage3Color = new Color(1f, 0.9f, 0f);
+    [SerializeField] private Color superColor = new Color(1f, 0.7f, 0f);
 
     [Header("강화 단계별 발사 쿨다운")]
     [SerializeField] private float stage1FireCooldown = 1.0f;
@@ -14,8 +14,9 @@ public class PlayerTankUpgrade : MonoBehaviour
     [SerializeField] private float stage3FireCooldown = 0.6f;
     [SerializeField] private float superFireCooldown = 0.4f;
 
-    private int upgradeLevel = 0; // 0=1단계, 1=2단계, 2=3단계, 3=슈퍼
-    private int starCount = 0;    // 파괴 없이 연속으로 먹은 별 수
+    // 0=기본, 1=2단계, 2=3단계, 3=슈퍼탱크
+    private int upgradeLevel = 0;
+    private int starCount = 0;
 
     private MeshRenderer[] renderers;
     private PlayerAttack playerAttack;
@@ -25,36 +26,30 @@ public class PlayerTankUpgrade : MonoBehaviour
         renderers = GetComponentsInChildren<MeshRenderer>();
         playerAttack = GetComponentInParent<PlayerAttack>();
         if (playerAttack == null) playerAttack = GetComponent<PlayerAttack>();
-        
+
         ApplyUpgrade();
     }
 
+    // 별 획득 시 강화 단계 상승. 3개 연속 획득 시 슈퍼탱크
     public void OnStarCollected()
     {
-        if (upgradeLevel >= 3) return; // 슈퍼탱크면 변화 없음
+        if (upgradeLevel >= 3) return;
 
         starCount++;
-
-        if (starCount >= 3)
-        {
-            upgradeLevel = 3; // 슈퍼탱크
-        }
-        else
-        {
-            upgradeLevel = Mathf.Min(upgradeLevel + 1, 3);
-        }
+        upgradeLevel = starCount >= 3 ? 3 : Mathf.Min(upgradeLevel + 1, 3);
 
         ApplyUpgrade();
     }
 
+    // 피격 시 강화 초기화
     public void OnDestroyed()
     {
-        // 파괴 시 1단계로 초기화
         upgradeLevel = 0;
         starCount = 0;
         ApplyUpgrade();
     }
 
+    // 강화 단계에 따라 색상과 발사 쿨다운 적용
     private void ApplyUpgrade()
     {
         Color color = upgradeLevel switch
@@ -75,14 +70,9 @@ public class PlayerTankUpgrade : MonoBehaviour
             _ => stage1FireCooldown
         };
 
-        // 색상 적용
         foreach (var r in renderers)
-        {
             r.material.color = color;
-        }
 
-        // 발사 쿨다운 적용
-        if (playerAttack != null)
-            playerAttack.SetFireCooldown(cooldown);
+        playerAttack?.SetFireCooldown(cooldown);
     }
 }

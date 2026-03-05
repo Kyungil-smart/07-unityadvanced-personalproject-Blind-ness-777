@@ -12,32 +12,31 @@ public class EndingSceneManager : MonoBehaviour
     [Header("Credit Scroll")]
     [SerializeField] private float scrollSpeed = 50f;
     [SerializeField] private float endingDisplayTime = 3f;
-    [SerializeField] private float scrollStopY = 1000f; // 추가
+    [SerializeField] private float scrollStopY = 1000f;
 
     [Header("Fade")]
     [SerializeField] private CanvasGroup fadeCanvasGroup;
     [SerializeField] private float fadeDuration = 1f;
-    
+
     [Header("Press Enter")]
     [SerializeField] private GameObject pressEnterText;
 
-    private bool isCreditDone = false;
     private bool isScrolling = false;
     private float timer = 0f;
     private float fadeTimer = 0f;
     private bool isFading = false;
 
+    // GameManager.isEnding 플래그로 엔딩/크레딧 분기
     private void Start()
     {
         if (GameManager.Instance != null && GameManager.Instance.isEnding)
         {
-            // 엔딩 이미지 먼저 보여주기
             endingPanel.SetActive(true);
             creditContent.SetActive(false);
         }
         else
         {
-            // 메인메뉴에서 크레딧 버튼으로 진입
+            // 메인메뉴 크레딧 버튼으로 진입 시 크레딧만 표시
             endingPanel.SetActive(false);
             creditContent.SetActive(true);
             isScrolling = true;
@@ -46,15 +45,21 @@ public class EndingSceneManager : MonoBehaviour
 
     private void Update()
     {
-        // 언제든 탈출 가능
+        // ESC/Enter로 언제든 메인메뉴 복귀
         if (Keyboard.current.escapeKey.wasPressedThisFrame ||
             Keyboard.current.enterKey.wasPressedThisFrame)
         {
             OnMainMenuButton();
             return;
         }
-        
-        // 엔딩 이미지 표시 후 페이드 아웃
+
+        HandleEndingFade();
+        HandleCreditScroll();
+    }
+
+    // 엔딩 이미지를 일정 시간 표시 후 페이드 아웃
+    private void HandleEndingFade()
+    {
         if (endingPanel.activeSelf && !isFading)
         {
             timer += Time.deltaTime;
@@ -65,7 +70,6 @@ public class EndingSceneManager : MonoBehaviour
             }
         }
 
-        // 페이드 처리
         if (isFading && fadeCanvasGroup != null)
         {
             fadeTimer += Time.deltaTime;
@@ -77,24 +81,24 @@ public class EndingSceneManager : MonoBehaviour
                 creditContent.SetActive(true);
                 isScrolling = true;
                 isFading = false;
-                if (fadeCanvasGroup != null)
-                    fadeCanvasGroup.alpha = 1f;
+                fadeCanvasGroup.alpha = 1f;
             }
         }
+    }
 
-        // 크레딧 스크롤
-        if (isScrolling && creditContent != null)
+    // 크레딧 스크롤. scrollStopY 도달 시 페이드 아웃 후 PressEnter 표시
+    private void HandleCreditScroll()
+    {
+        if (!isScrolling || creditContent == null) return;
+
+        if (creditContent.transform.localPosition.y < scrollStopY)
         {
-            if (creditContent.transform.localPosition.y < scrollStopY)
-            {
-                creditContent.transform.Translate(Vector3.up * scrollSpeed * Time.deltaTime);
-            }
-            else
-            {
-                isScrolling = false;
-                isCreditDone = true;
-                StartCoroutine(FadeOutCredit());
-            }
+            creditContent.transform.Translate(Vector3.up * scrollSpeed * Time.deltaTime);
+        }
+        else
+        {
+            isScrolling = false;
+            StartCoroutine(FadeOutCredit());
         }
     }
 
@@ -104,10 +108,10 @@ public class EndingSceneManager : MonoBehaviour
             GameManager.Instance.isEnding = false;
         SceneManager.LoadScene("MainMenu");
     }
-    
+
     private IEnumerator FadeOutCredit()
     {
-        float elapsed = 0f; // timer → elapsed
+        float elapsed = 0f;
         CanvasGroup cg = creditContent.GetComponent<CanvasGroup>();
         if (cg == null) cg = creditContent.AddComponent<CanvasGroup>();
 

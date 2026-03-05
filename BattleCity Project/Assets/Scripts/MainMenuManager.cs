@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Panels")]
     [SerializeField] private GameObject optionPopup;
 
     public void OnStartButton()
@@ -14,9 +13,10 @@ public class MainMenuManager : MonoBehaviour
     public void OnOptionButton()
     {
         if (optionPopup != null)
-            optionPopup.SetActive(true);
+            optionPopup.GetComponent<OptionPopup>().TogglePopup();
     }
 
+    // GameManager가 없으면 직접 씬 이동 (메인메뉴에 GameManager 없음)
     public void OnCreditButton()
     {
         if (GameManager.Instance != null)
@@ -27,11 +27,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnQuitButton()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void CloseOption()

@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip shellExplosion;
     [SerializeField] private AudioClip pickupPowerUp;
 
+    // 씬 전환 후에도 오디오 유지
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,29 +46,16 @@ public class AudioManager : MonoBehaviour
             bgmSource.Stop();
     }
 
+    // OptionPopup 볼륨 슬라이더와 연동
     public void SetVolume(float volume)
     {
         if (bgmSource != null) bgmSource.volume = volume;
         if (sfxSource != null) sfxSource.volume = volume;
     }
 
-    public void PlayTankExplosion()
-    {
-        sfxSource?.PlayOneShot(tankExplosion);
-    }
-
-    public void PlayShotFiring()
-    {
-        sfxSource?.PlayOneShot(shotFiring);
-    }
-
-    public void PlayShellExplosion()
-    {
-        sfxSource?.PlayOneShot(shellExplosion);
-    }
-
-    public void PlayPickupPowerUp()
-    {
-        sfxSource?.PlayOneShot(pickupPowerUp);
-    }
+    // PlayOneShot으로 재생해서 SFX 중첩 가능
+    public void PlayTankExplosion() => sfxSource?.PlayOneShot(tankExplosion);
+    public void PlayShotFiring() => sfxSource?.PlayOneShot(shotFiring);
+    public void PlayShellExplosion() => sfxSource?.PlayOneShot(shellExplosion);
+    public void PlayPickupPowerUp() => sfxSource?.PlayOneShot(pickupPowerUp);
 }

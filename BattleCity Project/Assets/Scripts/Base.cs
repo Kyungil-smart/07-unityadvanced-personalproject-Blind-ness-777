@@ -8,24 +8,19 @@ public class Base : MonoBehaviour, IProjectileHittable
     [Header("Optional Visual")]
     [SerializeField] private GameObject baseVisual;
 
+    // 기지가 피격되면 즉시 게임오버
     public void OnProjectileHit(Projectile projectile, RaycastHit hit)
     {
         if (isDestroyed) return;
 
         isDestroyed = true;
-        
-        // 1) 비주얼만 끄고 싶으면 baseVisual 사용
-        if (baseVisual != null)
-        {
-            baseVisual.SetActive(false);
-        }
-        else
-        {
-            // 2) 비주얼이 따로 없으면 베이스 자체 비활성화
-            gameObject.SetActive(false);
-        }
 
-        Debug.Log("GAME OVER: Base destroyed");
+        // baseVisual이 있으면 비주얼만 끄고, 없으면 오브젝트 자체 비활성화
+        if (baseVisual != null)
+            baseVisual.SetActive(false);
+        else
+            gameObject.SetActive(false);
+
         GameManager.Instance?.GameOver();
     }
 }

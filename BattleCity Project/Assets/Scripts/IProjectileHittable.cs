@@ -1,6 +1,7 @@
 using UnityEngine;
 
+// 총알 피격 처리가 필요한 오브젝트가 구현하는 인터페이스
 public interface IProjectileHittable
 {
-    public void OnProjectileHit(Projectile projectile, RaycastHit hit) {}
+    void OnProjectileHit(Projectile projectile, RaycastHit hit);
 }

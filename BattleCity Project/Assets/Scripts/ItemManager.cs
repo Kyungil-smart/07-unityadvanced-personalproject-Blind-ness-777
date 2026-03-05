@@ -19,6 +19,7 @@ public class ItemManager : MonoBehaviour
         Instance = this;
     }
 
+    // 적 사망 시 확률적으로 별 아이템 스폰. 필드에 아이템이 이미 있으면 제거 후 재생성
     public void TrySpawnItem(Vector3 position)
     {
         if (Random.value >= itemSpawnChance) return;
@@ -30,6 +31,7 @@ public class ItemManager : MonoBehaviour
         currentItem = Instantiate(starItemPrefab, position, Quaternion.identity);
     }
 
+    // StarItem에서 획득 시 호출
     public void OnItemCollected()
     {
         currentItem = null;

@@ -19,7 +19,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
     [Header("발사 주기")]
     [SerializeField] private float tryInterval = 0.25f;
     private float nextTryTime;
-    
+
     [Header("랜덤 방향 전환")]
     [SerializeField] private float randomTurnInterval = 2f;
     private float nextRandomTurnTime;
@@ -29,6 +29,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
         if (desiredDirection == Vector3.zero) desiredDirection = Vector3.forward;
     }
 
+    // EnemyController에서 매 프레임 호출. 발사 판단 + 이동 방향 결정
     public void Think()
     {
         TryFire();
@@ -39,6 +40,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
             HandleWall();
     }
 
+    // 일정 간격마다 확률적으로 발사 요청
     private void TryFire()
     {
         if (Time.time < nextTryTime) return;
@@ -52,13 +54,14 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
             fireRequested = true;
     }
 
+    // 전방이 막히지 않았을 때 기지 방향으로 이동
     private void MoveTowardBase()
     {
         wallStuckCounter = 0;
 
         if (baseTarget == null) return;
 
-        // 일정 확률로 랜덤 방향 전환
+        // 일정 확률로 랜덤 방향 전환해서 단조로운 경로 방지
         if (Time.time >= nextRandomTurnTime)
         {
             nextRandomTurnTime = Time.time + randomTurnInterval;
@@ -67,7 +70,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
             {
                 Vector3 cur = desiredDirection;
                 Vector3 right = new Vector3(-cur.z, 0f, cur.x);
-                Vector3 left  = new Vector3(cur.z, 0f, -cur.x);
+                Vector3 left = new Vector3(cur.z, 0f, -cur.x);
                 desiredDirection = Random.value < 0.5f ? right : left;
                 return;
             }
@@ -81,6 +84,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
         desiredDirection = SnapToCardinal(dir.normalized);
     }
 
+    // 전방이 막혔을 때 회피 방향 결정. 기지 방향을 우선 고려
     private void HandleWall()
     {
         wallStuckCounter++;
@@ -97,8 +101,8 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
 
         Vector3 cur = desiredDirection;
         Vector3 right = new Vector3(-cur.z, 0f, cur.x);
-        Vector3 left  = new Vector3(cur.z, 0f, -cur.x);
-        Vector3 back  = new Vector3(-cur.x, 0f, -cur.z);
+        Vector3 left = new Vector3(cur.z, 0f, -cur.x);
+        Vector3 back = new Vector3(-cur.x, 0f, -cur.z);
 
         Vector3 toBase = Vector3.zero;
         if (baseTarget != null)
@@ -107,15 +111,17 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
             toBase.y = 0f;
         }
 
+        // 기지 방향과 가장 가까운 방향 선택
         float scoreRight = toBase == Vector3.zero ? 0f : Vector3.Dot(right.normalized, toBase.normalized);
-        float scoreLeft  = toBase == Vector3.zero ? 0f : Vector3.Dot(left.normalized, toBase.normalized);
-        float scoreBack  = (toBase == Vector3.zero ? -1f : Vector3.Dot(back.normalized, toBase.normalized)) - 0.35f;
+        float scoreLeft = toBase == Vector3.zero ? 0f : Vector3.Dot(left.normalized, toBase.normalized);
+        float scoreBack = (toBase == Vector3.zero ? -1f : Vector3.Dot(back.normalized, toBase.normalized)) - 0.35f;
 
         Vector3 next = right;
         float best = scoreRight;
         if (scoreLeft > best) { best = scoreLeft; next = left; }
         if (scoreBack > best) { next = back; }
 
+        // 15% 확률로 랜덤 방향 전환해서 고착 방지
         if (Random.value < 0.15f)
         {
             float r = Random.value;
@@ -125,7 +131,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
         desiredDirection = next;
     }
 
-    // Controller가 읽는 출력
+    // Controller가 이동 방향을 읽을 때 사용
     public Vector3 GetMoveDir()
     {
         if (desiredDirection == Vector3.zero)
@@ -133,6 +139,7 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
         return desiredDirection;
     }
 
+    // 발사 요청 소비. 한 번 읽으면 초기화
     public bool ConsumeFireRequested()
     {
         if (!fireRequested) return false;
@@ -149,13 +156,12 @@ public class EnemyBrain : MonoBehaviour, IEnemyBlackboardWriter
     public void IncrementWallStuckCounter() => wallStuckCounter++;
     public void ResetWallStuckCounter() => wallStuckCounter = 0;
 
-    // IEnemyBlackboardWriter
+    // IEnemyBlackboardWriter 구현
     public void SetTarget(Transform t) { }
     public void SetAttackRange(float r) { }
     public void SetIsForwardClear(bool v) => isForwardClear = v;
     public void SetBlockedTarget(Transform t) { }
 
-    // 유틸
     private Vector3 SnapToCardinal(Vector3 dir)
     {
         dir.y = 0f;
