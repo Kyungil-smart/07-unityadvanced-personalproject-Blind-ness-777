@@ -273,7 +273,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8414033469846333974}
         m_TargetAssemblyTypeName: OptionPopup, Assembly-CSharp
-        m_MethodName: OnMainMenuButton
+        m_MethodName: OnExitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -503,7 +503,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OptionPopup
   volumeSlider: {fileID: 5994038095857483296}
   popupPanel: {fileID: 7846216620105897202}
-  mainMenuButton: {fileID: 1857336052414438852}
 --- !u!1 &3255133814193599813
 GameObject:
   m_ObjectHideFlags: 0

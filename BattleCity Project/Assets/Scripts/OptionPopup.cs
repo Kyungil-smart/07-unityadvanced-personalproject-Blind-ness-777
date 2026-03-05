@@ -7,11 +7,16 @@ public class OptionPopup : MonoBehaviour
 {
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private GameObject popupPanel;
+    [SerializeField] private GameObject exitButton;
 
     private void Awake()
     {
         if (volumeSlider != null)
             volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+        
+        // 메인메뉴에서는 Exit 버튼 숨기기
+        if (exitButton != null)
+            exitButton.SetActive(IsInGame());
     }
 
     // 인게임에서만 ESC로 팝업 토글

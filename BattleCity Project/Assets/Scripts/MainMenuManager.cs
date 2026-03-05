@@ -12,6 +12,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnOptionButton()
     {
+        Debug.Log($"[Menu] OnOptionButton called, optionPopup={optionPopup}");
         if (optionPopup != null)
             optionPopup.GetComponent<OptionPopup>().TogglePopup();
     }
