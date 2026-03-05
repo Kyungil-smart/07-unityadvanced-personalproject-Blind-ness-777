@@ -1,10 +1,8 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerTankLife : MonoBehaviour, IProjectileHittable
 {
     [SerializeField] private PlayerTankUpgrade tankUpgrade;
-    [SerializeField] private float respawnDelay = 2f;
 
     private void Awake()
     {
@@ -16,11 +14,13 @@ public class PlayerTankLife : MonoBehaviour, IProjectileHittable
         TakeHit();
     }
 
+    // 피격 시 강화 초기화, 목숨 차감, UI 갱신, 리스폰 요청
     private void TakeHit()
     {
+        AudioManager.Instance?.PlayTankExplosion();
         tankUpgrade?.OnDestroyed();
         GameManager.Instance?.LoseLife();
-        GameUIManager.Instance?.UpdateLives();
+        FindObjectOfType<GameUIManager>()?.UpdateLives();
         FindObjectOfType<SpawnManager>()?.StartRespawn(gameObject);
     }
 }

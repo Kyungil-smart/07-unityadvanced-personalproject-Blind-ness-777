@@ -13,17 +13,10 @@ public class PlayerController : MonoBehaviour
         if (playerAttack == null) playerAttack = GetComponent<PlayerAttack>();
     }
 
+    // 입력 → 이동 → 공격 순서로 매 프레임 실행
     private void Update()
     {
         playerMovement.Tick(inputManager.MoveInput);
         playerAttack.Tick();
-    }
-
-    private void CameraChange()
-    {
-        if (Input.GetKeyDown(KeyCode.BackQuote))
-        {
-            // TODO: 카메라 전환
-        }
     }
 }

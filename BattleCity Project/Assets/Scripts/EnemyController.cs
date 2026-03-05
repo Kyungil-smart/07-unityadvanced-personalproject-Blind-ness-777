@@ -20,10 +20,13 @@ public class EnemyController : MonoBehaviour
             sensors.SetBlackboardWriter(brain);
     }
 
+    // 감지 → 판단 → 이동 → 공격 순서로 매 프레임 실행
     private void Update()
     {
-        if (sensors != null) sensors.Tick(brain.GetMoveDir());
+        if (sensors != null)
+            sensors.Tick(brain.GetMoveDir());
 
+        // thinkInterval마다 Brain 판단 실행
         if (Time.time >= nextThinkTime)
         {
             nextThinkTime = Time.time + thinkInterval;
@@ -33,7 +36,8 @@ public class EnemyController : MonoBehaviour
         if (movement != null)
             movement.Tick(brain.GetMoveDir());
 
+        // Brain이 발사 요청했을 때만 Attack 실행
         if (brain.ConsumeFireRequested())
-            if (attack != null) attack.Tick();
+            attack?.Tick();
     }
 }

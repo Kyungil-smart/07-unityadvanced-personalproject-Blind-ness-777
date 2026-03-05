@@ -6,8 +6,29 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 57e5e3eb4682ae64289e756e3d6e9c86
+  - enabled: 1
     path: Assets/Scenes/Stage1.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Stage2.unity
+    guid: c01e1493a5bdd974fadce0f540605afb
+  - enabled: 1
+    path: Assets/Scenes/Stage3.unity
+    guid: fd1da388e06afef42a04e9abf266755d
+  - enabled: 1
+    path: Assets/Scenes/Stage4.unity
+    guid: bdffd7c2c4304ae409c9ae0d5d135d05
+  - enabled: 1
+    path: Assets/Scenes/Stage5.unity
+    guid: faaf4edbc4edd1043b92d9db0d4028ab
+  - enabled: 1
+    path: Assets/Scenes/EndingCredit.unity
+    guid: fe3f34fb0b9def44cbb97297c0372870
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: f563a66a2e531e64d9f62e4dd74962e4
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

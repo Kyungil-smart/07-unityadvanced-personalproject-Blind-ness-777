@@ -11,6 +11,7 @@ public class StageData : ScriptableObject
     [Header("스폰 위치")]
     public Vector3[] spawnPositions;
 
+    // 합계가 100이 되어야 GetRandomPrefab()이 정상 동작
     [Header("탱크 등장 비율 (합계 100)")]
     [Range(0, 100)] public int basicRatio = 100;
     [Range(0, 100)] public int mediumRatio = 0;

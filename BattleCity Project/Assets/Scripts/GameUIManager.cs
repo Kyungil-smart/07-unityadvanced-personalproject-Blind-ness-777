@@ -4,26 +4,15 @@ using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
-    public static GameUIManager Instance { get; private set; }
-    
     [Header("텍스트")]
     [SerializeField] private TextMeshProUGUI stageNumText;
     [SerializeField] private TextMeshProUGUI enemyCountText;
     [SerializeField] private TextMeshProUGUI scoreText;
 
     [Header("Lives")]
-    [SerializeField] private RawImage[] lifeIcons; // 3개 연결
-    
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
-    
+    [SerializeField] private RawImage[] lifeIcons;
+
+    // 씬 로드 시 현재 GameManager 상태로 UI 초기화
     private void Start()
     {
         UpdateUI();
@@ -48,12 +37,14 @@ public class GameUIManager : MonoBehaviour
             scoreText.text = $"SCORE {GameManager.Instance?.GetScore()}";
     }
 
+    // SpawnManager에서 적 스폰/사망 시 호출
     public void UpdateEnemyCount(int count)
     {
         if (enemyCountText != null)
             enemyCountText.text = $"ENEMY {count}";
     }
 
+    // 목숨 수만큼 아이콘 활성화
     public void UpdateLives()
     {
         if (lifeIcons == null) return;

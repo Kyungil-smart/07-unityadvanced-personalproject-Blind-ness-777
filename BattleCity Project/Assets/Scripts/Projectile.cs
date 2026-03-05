@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float castRadius = 0.2f;
 
     [Header("Cast Offset")]
-    [SerializeField] private float castYOffset = 0.3f; // 판정용 캐스트를 아래로 내리는 값(월드 Y 기준)
+    [SerializeField] private float castYOffset = 0.3f;
 
     private float moveSpeed;
     private Vector3 moveDirection;
@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
+    // 발사 방향, 속도, 발사자 레이어 설정. 같은 레이어는 피격 무시
     public void Launch(Vector3 direction, float speed, int layer = -1)
     {
         moveDirection = direction.normalized;
@@ -33,44 +34,41 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (moveSpeed <= 0f) return;
-        if (moveDirection == Vector3.zero) return;
+        if (moveSpeed <= 0f || moveDirection == Vector3.zero) return;
 
         Vector3 prevPos = rb.position;
         float distance = moveSpeed * Time.fixedDeltaTime;
 
-        // 캐스트 시작점만 아래로 내림
+        // 판정 캐스트를 아래로 내려 지형 충돌 오감지 방지
         Vector3 castOffset = Vector3.down * castYOffset;
         Vector3 castOrigin = prevPos + castOffset;
 
-        RaycastHit hit;
-        if (Physics.SphereCast(castOrigin, castRadius, moveDirection, out hit, distance, hitMask, QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(castOrigin, castRadius, moveDirection, out RaycastHit hit, distance, hitMask, QueryTriggerInteraction.Ignore))
         {
-            // 자기 자신이 잡히는 경우 방지
             if (hit.collider == selfCollider)
             {
                 rb.MovePosition(prevPos + moveDirection * distance);
                 return;
             }
 
-            // hit.point는 "캐스트 중심" 기준이므로, 다시 오프셋을 되돌려서 실제 총알 위치를 계산
-            Vector3 stopPos = prevPos + moveDirection * (hit.distance) - castOffset;
+            // 캐스트 오프셋 되돌려서 실제 총알 정지 위치 계산
+            Vector3 stopPos = prevPos + moveDirection * hit.distance - castOffset;
             rb.MovePosition(stopPos);
 
             HandleHit(hit.collider, hit);
             return;
         }
 
-        Vector3 nextPos = prevPos + moveDirection * distance;
-        rb.MovePosition(nextPos);
+        rb.MovePosition(prevPos + moveDirection * distance);
     }
-    
+
     private void OnDisable()
     {
         moveSpeed = 0f;
         moveDirection = Vector3.zero;
     }
 
+    // 발사자 레이어 무시, 총알끼리 상쇄, IProjectileHittable 피격 처리
     private void HandleHit(Collider other, RaycastHit hit)
     {
         if (ownerLayer != -1 && other.gameObject.layer == ownerLayer)
@@ -95,7 +93,6 @@ public class Projectile : MonoBehaviour
     {
         moveSpeed = 0f;
         moveDirection = Vector3.zero;
-        
         gameObject.SetActive(false);
     }
 }
