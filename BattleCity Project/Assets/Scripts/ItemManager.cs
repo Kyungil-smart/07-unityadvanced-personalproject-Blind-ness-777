@@ -17,6 +17,7 @@ public class ItemManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     // 적 사망 시 확률적으로 별 아이템 스폰. 필드에 아이템이 이미 있으면 제거 후 재생성
