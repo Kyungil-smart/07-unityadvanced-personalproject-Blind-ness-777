@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
             lastAxis = Axis.None;
             prevInput = moveInput;
             direction = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             return;
         }
 
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        rb.linearVelocity = Vector3.zero;
         if (direction == Vector3.zero) return;
 
         // Trigger 콜라이더 무시하고 벽 감지. 충돌 예상 시 이동 중단

@@ -4,6 +4,7 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float speed = 3f;
+    [SerializeField] private float sweep = 0.2f;
 
     private Vector3 direction;
     private Vector3 lookDir;
@@ -40,7 +41,7 @@ public class EnemyMovement : MonoBehaviour
         rb.MoveRotation(Quaternion.LookRotation(direction));
 
         // 벽 감지. 충돌 예상 시 이동 중단
-        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + 1.5f))
+        if (rb.SweepTest(direction, out _, speed * Time.fixedDeltaTime + sweep))
             return;
 
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
